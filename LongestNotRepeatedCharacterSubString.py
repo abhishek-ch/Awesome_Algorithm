@@ -1,5 +1,13 @@
 __author__ = 'achoudhary'
 
+##
+# Iterate through each character of the array and add the occurances of each caharacter index
+# into a hashtable.
+# 1st occurance of any character till any next repeated occurance of character stopped the substring
+# then again the start pointer moves to current node or the repeating character and again the
+# same logic starts
+##
+
 inputs = ["Abhishekzrpoiepooliooopabcdefghijklmn","abcabaabccfdsaewer","Abhishek","CharliedaadaabcdefghijklmnmbrijeshoAlphaBeta","AABCdefghhijkl"]
 
 
