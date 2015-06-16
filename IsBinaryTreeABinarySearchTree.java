@@ -11,9 +11,3 @@ public class IsBinaryTreeABinarySearchTree {
 	}
 }
 
-/*
- * Copyright 2004-2015 Pilz Ireland Industrial Automation Ltd. All Rights
- * Reserved. PILZ PROPRIETARY/CONFIDENTIAL.
- * 
- * Created on 14 May 2015
- */
