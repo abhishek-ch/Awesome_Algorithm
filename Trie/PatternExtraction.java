@@ -1,4 +1,4 @@
-package trie;
+
 
 //http://stackoverflow.com/questions/29053153/encoding-numbers-to-words
 import java.io.BufferedReader;
@@ -88,6 +88,7 @@ public class PatternExtraction {
 
 	private static List<List<String>> modernEncodings(String number, int startAt) {
 		LinkedList<List<String>> result = new LinkedList<>();
+		
 		if (startAt == number.length()) {
 			result.add(new LinkedList<String>());
 			return result;
@@ -115,7 +116,7 @@ public class PatternExtraction {
 	public static void main(String[] args) {
 		CustomizeTrie trie = new CustomizeTrie();
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"D:\\Downloads\\numberencoding\\dictionary.txt"))) {
+				"dictionary.txt"))) {
 
 			String sCurrentLine;
 
@@ -135,7 +136,7 @@ public class PatternExtraction {
 		// }
 
 		// Astlo
-		List<List<String>> search = trie.search("107835");
+		List<List<String>> search = trie.search("381482");
 		System.out.println(search);
 		// for (String string : search) {
 		// System.err.println(string);

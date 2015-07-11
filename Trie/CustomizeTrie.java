@@ -1,4 +1,4 @@
-package trie;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,10 +82,14 @@ public class CustomizeTrie {
 		for (int endAt = startAt + 1; endAt <= number.length(); endAt++) {
 			List<String> words = dictionary.get(number
 					.substring(startAt, endAt));
+			//System.out.println(words);
 			if (words != null) {
 				List<List<String>> encodings = search(number, endAt);
+				//System.out.println("End At "+endAt+" ---> "+startAt);
 				for (String word : words) {
+					//System.out.println("inside "+word +" - "+encodings+" endAt "+endAt+" startAt "+startAt);
 					for (List<String> encoding : encodings) {
+						//System.err.print(" "+word);
 						List<String> enc = new LinkedList<>(encoding);
 						enc.add(0, word);
 						result.add(enc);
@@ -97,7 +101,20 @@ public class CustomizeTrie {
 	}
 
 	public List<List<String>> search(String word) {
-		return search(word, 0);
+		List<List<String>> output1 = search(word.substring(0,word.length()), 0);
+		System.out.println(output1.size());
+		if(output1.size() > 1){
+			List<List<String>> output2 = search(word, 0);
+			output1.addAll(output2);
+		}else{
+			output1 = search(word.substring(1,word.length()-1), 0);
+			if(output1 != null){
+				List<List<String>> output2 = search(word.substring(1), 0);
+				output1.addAll(output2);
+			}
+		}
+		
+		return output1;
 	}
 
 }
