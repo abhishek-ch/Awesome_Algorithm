@@ -233,27 +233,23 @@ public class OutputMain {
                
             SortedMap<String,ArrayList<String>> mo = filterPrefix(map, prefix);
             for(Map.Entry<String,ArrayList<String>> entry :mo.entrySet()) {
-            	System.out.println(entry.getKey() +" values "+entry.getValue());
             	for(int i = 0; i < entry.getValue().size(); i++){
             		String gattai = entry.getValue().get(i).replaceAll("\"", "");
             		String key = entry.getKey();
             		boolean con = key.equals(prefix) || prefix.startsWith(key);
-            		//System.out.println("CON  "+con+" OOk "+gattai.length()+" Pre "+prefix.length());
             		if(match.replace(" ", "").length() == original.length()){
             			System.out.println(original + " : "+lost + match);
             			lost = "";
             			
-            		}else if((prefix.length() - gattai.length()) == 1&& con == true){
+            		}else if((prefix.length() - gattai.length()) == 1&& con){
             			System.out.println(original + " : "+lost + match + entry.getValue().get(i) + " " +prefix.substring(prefix.length()-1, prefix.length()));
             			lost = "";
-            		}else if(gattai.length() < prefix.length()&& con == true){
+            		}else if(gattai.length() < prefix.length()&& con){
             			index = gattai.length();
             			local = entry.getValue().get(i);
-            			System.err.println("OOOMAUSAM " + local);
             			String lo = prefix.substring(gattai.length(), prefix.length());
             			Lookup1(lo,match + entry.getValue().get(i) + " ",original);
-            			
-            		}else if (prefix.length() == gattai.length()&& con == true){
+            		}else if (prefix.length() == gattai.length()&& con){
             			System.out.println(original + " : "+lost+ " " + match + gattai );
             			lost = "";
             			state = true;
@@ -262,20 +258,25 @@ public class OutputMain {
             	}
             	
             }
-            if( match.length()< num.length()&& state == false){
+            if( match.length()< num.length()&& !state ){
             	String m = match.replace(" ", "");
             	if(m.length() == 0){
-            		//match += num.substring(0, 1) + " ";
-            		System.out.println(" prefix "+prefix+" match "+match+" index "+index+" lost "+lost);
             		if(index > 0)
             			lost = local;
             		match += prefix.substring(index, index+1) + " ";
-            		//prefix = num.substring(1, num.length());
             		prefix = prefix.substring(index+1, prefix.length());
             		Lookup1(prefix,match,original);
             	}else if (m.substring(m.length()-1).matches("[0-9]+")){
             		return;
             	}
+            }else if(match.length() > num.length()&& !state ){
+            		String testMatch = match.trim();
+            		char charAt = testMatch.charAt(testMatch.length()-1);
+            		if(Character.isDigit(charAt))
+            			return;
+            		match += prefix.substring(0,1) + " ";
+            		prefix = prefix.substring(1);
+            		Lookup1(prefix,match,original);
             }
             
         }
@@ -381,7 +382,7 @@ public class OutputMain {
        
         Initalize();
 
-        File dictionary = new File("dictionary1.txt");
+        File dictionary = new File("dictionary.txt");
         File Numbers = new File("input.txt");
         try {
             Scanner nc = new Scanner(Numbers);
@@ -390,6 +391,7 @@ public class OutputMain {
              while(nc.hasNext()){
                 String num = nc.next();
                 String match = "";
+                lost = "";
                 Lookup1(num,match,num);
                 state = false; 
             }

@@ -2,15 +2,16 @@
 
 //http://stackoverflow.com/questions/29053153/encoding-numbers-to-words
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 public class PatternExtraction {
@@ -119,19 +120,25 @@ public class PatternExtraction {
 
 	public static void main(String[] args) {
 		CustomizeTrie trie = new CustomizeTrie();
-		try (BufferedReader br = new BufferedReader(new FileReader(
-				"dictionary.txt"))) {
-
-			String sCurrentLine;
-
-			while ((sCurrentLine = br.readLine()) != null) {
-				// System.out.println(sCurrentLine);
-				trie.add(sCurrentLine.trim());
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		trie.buildTrie("dictionary.txt");
+		trie.encodeNumber("input.txt");
+		
+		
+		
+		
+//		try (BufferedReader br = new BufferedReader(new FileReader(
+//				"dictionary1.txt"))) {
+//
+//			String sCurrentLine;
+//
+//			while ((sCurrentLine = br.readLine()) != null) {
+//				// System.out.println(sCurrentLine);
+//				trie.add(sCurrentLine.trim());
+//			}
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 		// Map<String, List<String>> map = trie.dictionary;
 		// for (Map.Entry<String, List<String>> entry : map.entrySet()) {
@@ -140,8 +147,8 @@ public class PatternExtraction {
 		// }
 
 		// Astlo
-		List<List<String>> search = trie.search("04824");
-		System.out.println(search);
+		//List<List<String>> search = trie.search("1078135");
+		//System.out.println(search);
 		// for (String string : search) {
 		// System.err.println(string);
 		// }

@@ -1,10 +1,16 @@
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -64,7 +70,48 @@ public class CustomizeTrie {
 		// update the Map
 		dictionary.put(intPattern, wordList);
 	}
+	
+	/**
+	 * Build the DataStructure Trie Dictionary
+	 * @param fileName
+	 */
+	public void buildTrie(String fileName){
+		try (BufferedReader br = new BufferedReader(new FileReader(
+				fileName))) {
 
+			String sCurrentLine;
+
+			while ((sCurrentLine = br.readLine()) != null) {
+				// System.out.println(sCurrentLine);
+				this.add(sCurrentLine.trim());
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	public void encodeNumber(String fileName){
+	      File Numbers = new File(fileName);
+	        try {
+	            Scanner nc = new Scanner(Numbers);
+	             while(nc.hasNext()){
+	                String num = nc.next();
+	                String match = "";
+	                lost = "";
+	                search(num,match,num);
+	                state = false; 
+	            }
+	            nc.close();
+	               
+	        } catch (FileNotFoundException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+	}
+	
 	private String findPattern(String word) {
 		String output = "";
 		for (char ch : word.toCharArray()) {
@@ -93,64 +140,82 @@ public class CustomizeTrie {
 	   
 
 
-
 	
-	private List<List<String>> search(String number, int startAt) {
-		SortedMap<String, List<String>> filterPrefix = filterPrefix(dictionary,number);
-		   for (Map.Entry<String,List<String>> entry : filterPrefix.entrySet()) {
-               System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-           }
-		LinkedList<List<String>> result = new LinkedList<>();
-		if (startAt == number.length()) {
-			result.add(new LinkedList<String>());
-			return result;
-		}
-		for (int endAt = startAt + 1; endAt <= number.length(); endAt++) {
-			List<String> words = dictionary.get(number
-					.substring(startAt, endAt));
-			//System.out.println(words);
-			System.out.println("endAt "+endAt);
-			if (words != null) {
-				List<List<String>> encodings = search(number, endAt);
-				//System.out.println("End At "+endAt+" ---> "+startAt);
-				for (String word : words) {
-					//System.out.println("inside "+word +" - "+encodings+" endAt "+endAt+" startAt "+startAt);
-					for (List<String> encoding : encodings) {
-						//System.err.print(" "+word);
-						List<String> enc = new LinkedList<>(encoding);
-						enc.add(0, word);
-						result.add(enc);
-					}
-				}
-			}
-		}
-		return result;
-	}
-
-
-
-	public List<List<String>> search(String word) {
-		List<List<String>> output1 = search(word.substring(0,word.length()), 0);
-		//System.out.println(output1.size());
-		if(output1.size() > 1){
-			List<List<String>> output2 = search(word, 0);
-			output1.addAll(output2);
-		}else{
-			output1 = search(word.substring(1,word.length()-1), 0);
-			if(output1 != null){
-				List<List<String>> output2 = search(word.substring(1), 0);
-				output1.addAll(output2);
-			}
-		}
-		
-		return output1;
-	}
+	
+	
+	
+	
+    /**
+     * Lookup essentially takes each phone number and attempts to find a matching within the
+     * SortedMap called map.
+     * 
+     * @param String num, String match, String original
+     *             num represents the phone number that is being matched.
+     *             match stores a copy of a dictionary word if a match is found
+     *             original is the dictionary unmodified
+     *            
+     *
+     */
+     String lost = "";
+    private  boolean state = false;
+    public  void search(String num, String match,String original){
+    	String local = "";
+    	int index = 0;
+        String prefix = num.replaceAll("[/-]+", "");
+        if(prefix.length() == 1){
+        	return;
+        }
+        
+           
+        SortedMap<String, List<String>> mo = filterPrefix(dictionary, prefix);
+        for(Map.Entry<String,List<String>> entry :mo.entrySet()) {
+        	for(int i = 0; i < entry.getValue().size(); i++){
+        		String gattai = entry.getValue().get(i).replaceAll("\"", "");
+        		String key = entry.getKey();
+        		boolean con = key.equals(prefix) || prefix.startsWith(key);
+        		if(match.replace(" ", "").length() == original.length()){
+        			System.out.println(original + " : "+lost + match);
+        			lost = "";
+        			
+        		}else if((prefix.length() - gattai.length()) == 1&& con){
+        			System.out.println(original + " : "+lost + match + entry.getValue().get(i) + " " +prefix.substring(prefix.length()-1, prefix.length()));
+        			lost = "";
+        		}else if(gattai.length() < prefix.length()&& con){
+        			index = gattai.length();
+        			local = entry.getValue().get(i);
+        			String lo = prefix.substring(gattai.length(), prefix.length());
+        			search(lo,match + entry.getValue().get(i) + " ",original);
+        		}else if (prefix.length() == gattai.length()&& con){
+        			System.out.println(original + " : "+lost+ " " + match + gattai );
+        			lost = "";
+        			state = true;
+        			
+        		}
+        	}
+        	
+        }
+        if( match.length()< num.length()&& !state ){
+        	String m = match.replace(" ", "");
+        	if(m.length() == 0){
+        		if(index > 0)
+        			lost = local;
+        		match += prefix.substring(index, index+1) + " ";
+        		prefix = prefix.substring(index+1, prefix.length());
+        		search(prefix,match,original);
+        	}else if (m.substring(m.length()-1).matches("[0-9]+")){
+        		return;
+        	}
+        }else if(match.length() > num.length()&& !state ){
+        		String testMatch = match.trim();
+        		char charAt = testMatch.charAt(testMatch.length()-1);
+        		if(Character.isDigit(charAt))
+        			return;
+        		match += prefix.substring(0,1) + " ";
+        		prefix = prefix.substring(1);
+        		search(prefix,match,original);
+        }
+        
+    }
+	
 
 }
-
-/*
- * Copyright 2004-2015 Pilz Ireland Industrial Automation Ltd. All Rights
- * Reserved. PILZ PROPRIETARY/CONFIDENTIAL.
- * 
- * Created on 10 Jul 2015
- */
