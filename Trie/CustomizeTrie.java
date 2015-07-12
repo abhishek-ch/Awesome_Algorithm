@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class CustomizeTrie {
 
 	private static final Map<Character, Integer> charTOIntMap = new HashMap<Character, Integer>();
-	public static final Map<String, List<String>> dictionary = new HashMap<String, List<String>>();
+	public static final SortedMap<String, List<String>> dictionary = new TreeMap<String, List<String>>();
 
 	public CustomizeTrie() {
 		charTOIntMap.put('E', 0);
@@ -73,7 +75,31 @@ public class CustomizeTrie {
 		return output;
 	}
 
+	
+	
+	public <V> SortedMap<String, V> filterPrefix(SortedMap<String,V> baseMap, String prefix) {
+       	
+       	if(prefix.length() > 0) {
+               char nextLetter = (char) (prefix.charAt(prefix.length() -1)+ 1);
+               String end = prefix.substring(0, prefix.length()-1) + nextLetter;
+               String range = prefix.substring(0, 2);
+             //  String leaf = prefix.substring(0, prefix.length()-1);
+               SortedMap<String,V> mo = baseMap.subMap(range,end);
+               
+               return mo; 
+           }
+           return baseMap;
+       }
+	   
+
+
+
+	
 	private List<List<String>> search(String number, int startAt) {
+		SortedMap<String, List<String>> filterPrefix = filterPrefix(dictionary,number);
+		   for (Map.Entry<String,List<String>> entry : filterPrefix.entrySet()) {
+               System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+           }
 		LinkedList<List<String>> result = new LinkedList<>();
 		if (startAt == number.length()) {
 			result.add(new LinkedList<String>());
@@ -83,6 +109,7 @@ public class CustomizeTrie {
 			List<String> words = dictionary.get(number
 					.substring(startAt, endAt));
 			//System.out.println(words);
+			System.out.println("endAt "+endAt);
 			if (words != null) {
 				List<List<String>> encodings = search(number, endAt);
 				//System.out.println("End At "+endAt+" ---> "+startAt);
@@ -100,9 +127,11 @@ public class CustomizeTrie {
 		return result;
 	}
 
+
+
 	public List<List<String>> search(String word) {
 		List<List<String>> output1 = search(word.substring(0,word.length()), 0);
-		System.out.println(output1.size());
+		//System.out.println(output1.size());
 		if(output1.size() > 1){
 			List<List<String>> output2 = search(word, 0);
 			output1.addAll(output2);

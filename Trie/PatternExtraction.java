@@ -4,15 +4,19 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class PatternExtraction {
 
-	static Map<String, List<String>> bucketedWords = new HashMap<>();
+	static Map<String, List<String>> bucketedWords = new TreeMap<>();
+	//SortedMap<String,ArrayList<String>> map = new TreeMap<String,ArrayList<String>>();
 	static Trie trie = new Trie();
 	private final Map<String, Integer> charTOIntMap = new HashMap<String, Integer>();
 
@@ -136,7 +140,7 @@ public class PatternExtraction {
 		// }
 
 		// Astlo
-		List<List<String>> search = trie.search("381482");
+		List<List<String>> search = trie.search("04824");
 		System.out.println(search);
 		// for (String string : search) {
 		// System.err.println(string);

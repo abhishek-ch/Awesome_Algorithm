@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+//http://www.mkyong.com/maven/how-to-create-a-java-project-with-maven/
 public class OutputMain {
 	/**
 	 * TreeMap that holds encodings from Letters to Numbers
@@ -175,18 +176,21 @@ public class OutputMain {
      *
      */
         public static boolean confirm(char[]dict, char []numb){
-
+        	//System.err.println(dict);
+        	//System.err.println(numb);
         int count = 0;
+        
+        if (dict.length > numb.length){
+
+            return false;
+
+        }
 
         for(int i = 0; i < dict.length;i++){
 
             if( dict.length <= i && count == dict.length){
 
                 return true;
-
-            }else if (dict.length > numb.length){
-
-                return false;
 
             }else if(numb[i] == dict[i]){
 
@@ -197,10 +201,85 @@ public class OutputMain {
         }
 
         if(count == dict.length)return true;
+       
 
         return false;
 
         }
+        
+        
+        
+        
+        /**
+         * Lookup essentially takes each phone number and attempts to find a matching within the
+         * SortedMap called map.
+         * 
+         * @param String num, String match, String original
+         *             num represents the phone number that is being matched.
+         *             match stores a copy of a dictionary word if a match is found
+         *             original is the dictionary unmodified
+         *            
+         *
+         */
+        static String lost = "";
+        public static void Lookup1(String num, String match,String original){
+        	String local = "";
+        	int index = 0;
+            String prefix = num.replaceAll("[/-]+", "");
+            if(prefix.length() == 1){
+            	return;
+            }
+            
+               
+            SortedMap<String,ArrayList<String>> mo = filterPrefix(map, prefix);
+            for(Map.Entry<String,ArrayList<String>> entry :mo.entrySet()) {
+            	System.out.println(entry.getKey() +" values "+entry.getValue());
+            	for(int i = 0; i < entry.getValue().size(); i++){
+            		String gattai = entry.getValue().get(i).replaceAll("\"", "");
+            		String key = entry.getKey();
+            		boolean con = key.equals(prefix) || prefix.startsWith(key);
+            		//System.out.println("CON  "+con+" OOk "+gattai.length()+" Pre "+prefix.length());
+            		if(match.replace(" ", "").length() == original.length()){
+            			System.out.println(original + " : "+lost + match);
+            			lost = "";
+            			
+            		}else if((prefix.length() - gattai.length()) == 1&& con == true){
+            			System.out.println(original + " : "+lost + match + entry.getValue().get(i) + " " +prefix.substring(prefix.length()-1, prefix.length()));
+            			lost = "";
+            		}else if(gattai.length() < prefix.length()&& con == true){
+            			index = gattai.length();
+            			local = entry.getValue().get(i);
+            			System.err.println("OOOMAUSAM " + local);
+            			String lo = prefix.substring(gattai.length(), prefix.length());
+            			Lookup1(lo,match + entry.getValue().get(i) + " ",original);
+            			
+            		}else if (prefix.length() == gattai.length()&& con == true){
+            			System.out.println(original + " : "+lost+ " " + match + gattai );
+            			lost = "";
+            			state = true;
+            			
+            		}
+            	}
+            	
+            }
+            if( match.length()< num.length()&& state == false){
+            	String m = match.replace(" ", "");
+            	if(m.length() == 0){
+            		//match += num.substring(0, 1) + " ";
+            		System.out.println(" prefix "+prefix+" match "+match+" index "+index+" lost "+lost);
+            		if(index > 0)
+            			lost = local;
+            		match += prefix.substring(index, index+1) + " ";
+            		//prefix = num.substring(1, num.length());
+            		prefix = prefix.substring(index+1, prefix.length());
+            		Lookup1(prefix,match,original);
+            	}else if (m.substring(m.length()-1).matches("[0-9]+")){
+            		return;
+            	}
+            }
+            
+        }
+        
         /**
          * Lookup essentially takes each phone number and attempts to find a matching within the
          * SortedMap called map.
@@ -222,12 +301,16 @@ public class OutputMain {
             
                
             SortedMap<String,ArrayList<String>> mo = filterPrefix(map, prefix);
+            for (Map.Entry<String,ArrayList<String>> entry : mo.entrySet()) {
+                //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+            }
             Set<Entry<String, ArrayList<String>>> ntry =  mo.entrySet();
             for(Map.Entry<String,ArrayList<String>> entry :ntry) {
             	for(int i = 0; i < entry.getValue().size(); i++){
             		String gattai = entry.getValue().get(i);
             		String key = entry.getKey();
-            		boolean con = confirm(key.toCharArray(),prefix.toCharArray());
+            		boolean con = key.equals(prefix) || prefix.startsWith(key);
+            		//boolean con = confirm(key.toCharArray(),prefix.toCharArray());
             		if(match.replace(" ", "").length() == original.length()){
             			System.out.println( original + " : " + match);
             			
@@ -298,7 +381,7 @@ public class OutputMain {
        
         Initalize();
 
-        File dictionary = new File("dictionary.txt");
+        File dictionary = new File("dictionary1.txt");
         File Numbers = new File("input.txt");
         try {
             Scanner nc = new Scanner(Numbers);
@@ -307,7 +390,7 @@ public class OutputMain {
              while(nc.hasNext()){
                 String num = nc.next();
                 String match = "";
-                Lookup(num,match,num);
+                Lookup1(num,match,num);
                 state = false; 
             }
             nc.close();
