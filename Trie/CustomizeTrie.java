@@ -124,7 +124,7 @@ public class CustomizeTrie {
 
 	
 	
-	public <V> SortedMap<String, V> filterPrefix(SortedMap<String,V> baseMap, String prefix) {
+	public <V> SortedMap<String, V> searchPrefix(SortedMap<String,V> baseMap, String prefix) {
        	
        	if(prefix.length() > 0) {
                char nextLetter = (char) (prefix.charAt(prefix.length() -1)+ 1);
@@ -142,8 +142,14 @@ public class CustomizeTrie {
 
 	
 	
-	
-	
+	/**
+	 * prints the output in console
+	 * @param rawInput
+	 * @param output
+	 */
+	private void print(String rawInput,String output){
+		System.out.println(rawInput+" : "+output.trim());
+	}
 	
     /**
      * Lookup essentially takes each phone number and attempts to find a matching within the
@@ -156,66 +162,73 @@ public class CustomizeTrie {
      *            
      *
      */
-     String lost = "";
+    private String lost = "";
     private  boolean state = false;
-    public  void search(String num, String match,String original){
+    public  void search(String input, String match,String rawInput){
     	String local = "";
     	int index = 0;
-        String prefix = num.replaceAll("[/-]+", "");
+        String prefix = input.replaceAll("[/-]+", "");
         if(prefix.length() == 1){
         	return;
         }
         
-           
-        SortedMap<String, List<String>> mo = filterPrefix(dictionary, prefix);
-        for(Map.Entry<String,List<String>> entry :mo.entrySet()) {
+        SortedMap<String, List<String>> dataset = searchPrefix(dictionary, prefix);
+        for(Map.Entry<String,List<String>> entry :dataset.entrySet()) {
         	for(int i = 0; i < entry.getValue().size(); i++){
-        		String gattai = entry.getValue().get(i).replaceAll("\"", "");
+        		String cleanedValue = entry.getValue().get(i).replaceAll("\"", "");
         		String key = entry.getKey();
         		boolean con = key.equals(prefix) || prefix.startsWith(key);
-        		if(match.replace(" ", "").length() == original.length()){
-        			System.out.println(original + " : "+lost + match);
-        			lost = "";
-        			
-        		}else if((prefix.length() - gattai.length()) == 1&& con){
-        			System.out.println(original + " : "+lost + match + entry.getValue().get(i) + " " +prefix.substring(prefix.length()-1, prefix.length()));
-        			lost = "";
-        		}else if(gattai.length() < prefix.length()&& con){
-        			index = gattai.length();
+        		if(match.replace(" ", "").length() == rawInput.length()){
+        			//System.err.println("3");
+        			print(rawInput, lost+" " + match);
+        		}else if((prefix.length() - cleanedValue.length()) == 1&& con){
+        			//System.err.println("2");
+        			print(rawInput, lost+" " + match + entry.getValue().get(i) + " " +prefix.substring(prefix.length()-1, prefix.length()));
+        		}else if(cleanedValue.length() < prefix.length()&& con){
+        			index = cleanedValue.length();
         			local = entry.getValue().get(i);
-        			String lo = prefix.substring(gattai.length(), prefix.length());
-        			search(lo,match + entry.getValue().get(i) + " ",original);
-        		}else if (prefix.length() == gattai.length()&& con){
-        			System.out.println(original + " : "+lost+ " " + match + gattai );
-        			lost = "";
+        			String lo = prefix.substring(cleanedValue.length(), prefix.length());
+        			search(lo,match + entry.getValue().get(i) + " ",rawInput);
+        		}else if (prefix.length() == cleanedValue.length()&& con){
+        			//System.err.println("1");
+        			print(rawInput, lost+ " " + match + cleanedValue);
         			state = true;
         			
         		}
         	}
         	
         }
-        if( match.length()< num.length()&& !state ){
+        
+        if(!state){
+        	preprocessSearch(input, match, rawInput, local, index, prefix);
+        }
+        //reset the lost
+        lost = "";
+    }
+
+	private void preprocessSearch(String input, String match, String rawInput, String local, int index, String prefix) {
+		if( match.length()< input.length() ){
         	String m = match.replace(" ", "");
         	if(m.length() == 0){
+        		//System.out.println("AYYA LA");
         		if(index > 0)
         			lost = local;
         		match += prefix.substring(index, index+1) + " ";
         		prefix = prefix.substring(index+1, prefix.length());
-        		search(prefix,match,original);
+        		search(prefix,match,rawInput);
         	}else if (m.substring(m.length()-1).matches("[0-9]+")){
         		return;
         	}
-        }else if(match.length() > num.length()&& !state ){
+        }else {
         		String testMatch = match.trim();
         		char charAt = testMatch.charAt(testMatch.length()-1);
         		if(Character.isDigit(charAt))
         			return;
         		match += prefix.substring(0,1) + " ";
         		prefix = prefix.substring(1);
-        		search(prefix,match,original);
+        		search(prefix,match,rawInput);
         }
-        
-    }
+	}
 	
 
 }
