@@ -31,9 +31,3 @@ public class MainFunction {
 
 }
 
-/*
- * Copyright 2004-2015 Pilz Ireland Industrial Automation Ltd. All Rights
- * Reserved. PILZ PROPRIETARY/CONFIDENTIAL.
- * 
- * Created on 10 Jul 2015
- */
