@@ -13,7 +13,9 @@ import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class CustomizeTrie {
+import com.numberencoding.signature.ITrie;
+
+public class CustomizeTrie implements ITrie{
 
 	private Map<Character, Integer> charTOIntMap = null;
 	private final SortedMap<String, List<String>> dictionary = new TreeMap<String, List<String>>();
