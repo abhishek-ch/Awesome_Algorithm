@@ -183,6 +183,17 @@ public class DeriveMatrix {
 		return tracker;
 
 	}
+	public List<Cube> buildBlankCubeStructure(int count){
+		//build 3- based Pattern Cube
+		List<Cube> cubeList = new ArrayList<>();
+		for(int i =0;i<count;i++){
+			Cube cube = new Cube();
+			cubeList.add(cube);
+		}
+		
+		return cubeList;
+		
+	}
 
 	public void backtrack(int slotid, List<int[][]> pieces_left) {
 		if (slotid == 3) {
@@ -202,6 +213,17 @@ public class DeriveMatrix {
 
 	}
 
+	
+	public void start(){
+		List<Cube> buildCube = controller.buildCube(3);
+	}
+	
+	CubeController controller;
+	public DeriveMatrix() {
+		// TODO Auto-generated constructor stub
+		controller = new CubeController();
+	}
+	
 	public static void main(String[] args) {
 		DeriveMatrix deriveMatrix = new DeriveMatrix();
 		String[] tPiece0 = { "  o  ", " ooo ", "ooooo", " ooo ", "  o  " };
@@ -213,6 +235,7 @@ public class DeriveMatrix {
 
 		int[][] convertToArray = deriveMatrix.convertToArray(tPiece1);
 		deriveMatrix.findAllOrientations(convertToArray);
+		
 		// int[][] flipInPlace = deriveMatrix.flipInPlace(convertToArray);
 		// deriveMatrix.findAllPossibleRightRotations(flipInPlace);
 		// convertToArray = deriveMatrix.mirror(convertToArray[0].length,

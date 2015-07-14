@@ -2,7 +2,18 @@ package cube;
 
 public class Cube {
 	
+	
+	
 	int[][] element = new int[5][5];
+	
+	public Cube(int[][] element) {
+		this.element = element;
+	}
+	
+	
+	public Cube() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	public int[] getLeft(){
 		int[] left = new int[element.length];
