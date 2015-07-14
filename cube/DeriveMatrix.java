@@ -1,7 +1,9 @@
 package cube;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DeriveMatrix {
 
@@ -170,14 +172,33 @@ public class DeriveMatrix {
 		return allPossibleRotations;
 	}
 
+	Map<int[][], List<int[][]>> tracker = new HashMap<>();
+
+	public Map<int[][], List<int[][]>> trigger(List<int[][]> pieces_left) {
+		for (int[][] piece : pieces_left) {
+			List<int[][]> findAllOrientations = findAllOrientations(piece);
+			tracker.put(piece, findAllOrientations);
+		}
+
+		return tracker;
+
+	}
+
 	public void backtrack(int slotid, List<int[][]> pieces_left) {
 		if (slotid == 3) {
 			System.out.println("DONE DONE");
 		}
 
 		for (int[][] piece : pieces_left) {
+			List<int[][]> list = tracker.get(piece);
+			for (int[][] orientationPiece : list) {
 
+			}
 		}
+
+	}
+
+	public void buildCubeSymettry() {
 
 	}
 
