@@ -219,12 +219,21 @@ public class DeriveMatrix {
 		// TODO Auto-generated constructor stub
 		controller = new CubeController();
 
-		String[] tPiece0 = { "  o  ", " ooo ", "ooooo", " ooo ", "  o  " };
-		String[] tPiece1 = { "  o o", "ooooo", " ooo ", "ooooo", " o oo" };
-		String[] tPiece2 = { " o o ", " ooo ", "ooooo", " ooo ", "  o  " };
-		String[] tPiece3 = { "o o  ", "ooooo", " ooo ", "ooooo", " o o " };
-		String[] tPiece4 = { "o o o", "ooooo", " ooo ", "ooooo", "o o o" };
-		String[] tPiece5 = { " o o ", "oooo ", " oooo", "oooo ", "oo o " };
+		// BLUE
+		// String[] tPiece0 = { "  o  ", " ooo ", "ooooo", " ooo ", "  o  " };
+		// String[] tPiece1 = { "  o o", "ooooo", " ooo ", "ooooo", " o oo" };
+		// String[] tPiece2 = { " o o ", " ooo ", "ooooo", " ooo ", "  o  " };
+		// String[] tPiece3 = { "o o  ", "ooooo", " ooo ", "ooooo", " o o " };
+		// String[] tPiece4 = { "o o o", "ooooo", " ooo ", "ooooo", "o o o" };
+		// String[] tPiece5 = { " o o ", "oooo ", " oooo", "oooo ", "oo o " };
+
+		// RED
+		String[] tPiece0 = { "   oo", " ooo ", "ooooo", " ooo ", " o oo" };
+		String[] tPiece1 = { "  o o", "oooo ", " oooo", "oooo ", " o   " };
+		String[] tPiece2 = { " oo o", "ooooo", " ooo ", "ooooo", "o  oo" };
+		String[] tPiece3 = { "  o  ", "oooo ", " oooo", "oooo ", "  o  " };
+		String[] tPiece4 = { "  oo ", "ooooo", " ooo ", "ooooo", "o o  " };
+		String[] tPiece5 = { " oo  ", " ooo ", "ooooo", " ooo ", "oo oo" };
 
 		int[][] convertToArray1 = convertToArray(tPiece0);
 		int[][] convertToArray2 = convertToArray(tPiece1);
