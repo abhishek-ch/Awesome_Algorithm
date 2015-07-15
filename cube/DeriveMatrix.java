@@ -29,6 +29,33 @@ public class DeriveMatrix {
 		return matrix;
 	}
 
+	private void printPattern(List<Cube> list) {
+		List<String> listOutput = new ArrayList<>();
+		for (Cube cube : list) {
+			String output = "";
+			int[][] element = cube.getElement();
+			for (int i = 0; i < element.length; i++) {
+				for (int j = 0; j < element[0].length; j++) {
+					output += (element[i][j] == 0) ? " " : "o";
+				}
+				if (i < element.length - 1)
+					output += "\n";
+			}
+			System.out.print(output + "\r");
+			listOutput.add(output);
+			// TODO do this
+			Edge linkedEdge = cube.linkedEdge;
+			// if (linkedEdge == Edge.NONE) {
+
+		}
+		String main = "";
+		for (String string : listOutput) {
+			// System.out.print(string + "\r");
+		}
+		// System.out.println(main);
+
+	}
+
 	public void printGrid(int[][] a) {
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
@@ -168,7 +195,7 @@ public class DeriveMatrix {
 
 		// allPossibleRotations.addAll(findAllPossibleRightRotations(flipInPlace));
 		// System.out.println(allPossibleRotations.size());
-		printSmart(allPossibleRotations);
+		// printSmart(allPossibleRotations);
 		return allPossibleRotations;
 	}
 
@@ -183,27 +210,37 @@ public class DeriveMatrix {
 		return tracker;
 
 	}
-	public List<Cube> buildBlankCubeStructure(int count){
-		//build 3- based Pattern Cube
+
+	public List<Cube> buildBlankCubeStructure(int count) {
+		// build 3- based Pattern Cube
 		List<Cube> cubeList = new ArrayList<>();
-		for(int i =0;i<count;i++){
+		for (int i = 0; i < count; i++) {
 			Cube cube = new Cube();
 			cubeList.add(cube);
 		}
-		
+
 		return cubeList;
-		
+
 	}
 
 	public void backtrack(int slotid, List<int[][]> pieces_left) {
 		if (slotid == 3) {
-			System.out.println("DONE DONE");
+			List<Cube> list = controller.getList();
+			printPattern(list);
+			System.exit(0);
+			return;
 		}
 
 		for (int[][] piece : pieces_left) {
 			List<int[][]> list = tracker.get(piece);
 			for (int[][] orientationPiece : list) {
-
+				List<Cube> buildCubeBlock = controller.buildCubeBlock(slotid,
+						orientationPiece);
+				if (buildCubeBlock.size() == slotid + 1) {
+					List<int[][]> subList = new ArrayList<int[][]>(pieces_left);
+					subList.remove(piece);
+					backtrack(slotid + 1, subList);
+				}
 			}
 		}
 
@@ -213,19 +250,16 @@ public class DeriveMatrix {
 
 	}
 
-	
-	public void start(){
+	public void start() {
 		List<Cube> buildCube = controller.buildCube(3);
 	}
-	
+
 	CubeController controller;
+
 	public DeriveMatrix() {
 		// TODO Auto-generated constructor stub
 		controller = new CubeController();
-	}
-	
-	public static void main(String[] args) {
-		DeriveMatrix deriveMatrix = new DeriveMatrix();
+
 		String[] tPiece0 = { "  o  ", " ooo ", "ooooo", " ooo ", "  o  " };
 		String[] tPiece1 = { "  o o", "ooooo", " ooo ", "ooooo", " o oo" };
 		String[] tPiece2 = { " o o ", " ooo ", "ooooo", " ooo ", "  o  " };
@@ -233,9 +267,22 @@ public class DeriveMatrix {
 		String[] tPiece4 = { "o o o", "ooooo", " ooo ", "ooooo", "o o o" };
 		String[] tPiece5 = { " o o ", "oooo ", " oooo", "oooo ", "oo o " };
 
-		int[][] convertToArray = deriveMatrix.convertToArray(tPiece1);
-		deriveMatrix.findAllOrientations(convertToArray);
-		
+		int[][] convertToArray1 = convertToArray(tPiece0);
+		int[][] convertToArray2 = convertToArray(tPiece1);
+		int[][] convertToArray3 = convertToArray(tPiece2);
+		List<int[][]> listOfMatrix = new ArrayList<>();
+
+		listOfMatrix.add(convertToArray1);
+		listOfMatrix.add(convertToArray2);
+		listOfMatrix.add(convertToArray3);
+		trigger(listOfMatrix);
+		backtrack(0, listOfMatrix);
+
+	}
+
+	public static void main(String[] args) {
+		DeriveMatrix deriveMatrix = new DeriveMatrix();
+
 		// int[][] flipInPlace = deriveMatrix.flipInPlace(convertToArray);
 		// deriveMatrix.findAllPossibleRightRotations(flipInPlace);
 		// convertToArray = deriveMatrix.mirror(convertToArray[0].length,

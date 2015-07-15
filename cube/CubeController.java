@@ -1,43 +1,67 @@
 package cube;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CubeController {
-	
-	
-	public List<Cube> buildCube(int count){
+
+	public List<Cube> buildCube(int count) {
 		List<Cube> cubeList = new ArrayList<>();
-		for(int i =0;i<count;i++){
+		for (int i = 0; i < count; i++) {
 			Cube cube = new Cube();
 			cubeList.add(cube);
 		}
-		
+
 		return cubeList;
-		
+
 	}
-	
-	
+
 	private List<Cube> cubeList = new ArrayList<>();
-	public List<Cube> buildCubeBlock(int sequence,int[][] matrix){
-		switch(sequence){
+
+	public List<Cube> getList() {
+		return cubeList;
+	}
+
+	/**
+	 * basic looping for arranging cubes one after another
+	 * 
+	 * @param sequence
+	 * @param matrix
+	 * @return
+	 */
+	public List<Cube> buildCubeBlock(int sequence, int[][] matrix) {
+		switch (sequence) {
 		case 0:
-			//since just a blank scenario , add the cube
+			// since just a blank scenario , add the cube
 			Cube cube = new Cube(matrix);
 			cubeList.add(cube);
+			cube.linkedEdge = Edge.NONE;
 			break;
-			
+
 		case 1:
 			Cube cube1 = cubeList.get(0);
-			if(fitRightBasicSequence(cube1,matrix)){
-				
+			if (fitRightBasicSequence(cube1, matrix)) {
+				cube = new Cube(matrix);
+				cubeList.add(cube);
+
+				cube.linkedEdge = Edge.RIGHT;
 			}
+			break;
+		case 2:
+			Cube cube2 = cubeList.get(1);
+			if (fitRightBasicSequence(cube2, matrix)) {
+				cube = new Cube(matrix);
+				cubeList.add(cube);
+				cube.linkedEdge = Edge.RIGHT;
+			}
+			break;
 		}
 		return cubeList;
 	}
+
 	/**
 	 * if right sequence agreed to collaborate 1-0 XOR
+	 * 
 	 * @param cube1
 	 * @param matrix
 	 * @return
@@ -46,17 +70,17 @@ public class CubeController {
 		boolean result = true;
 		int[] right_cube1 = cube.getRight();
 		int[] right_matrix = Util.getLeft(matrix);
-		for(int i =0;i<5;i++){
-			if(right_cube1[i] == 0 && right_matrix[i] == 0){
+		for (int i = 0; i < 5; i++) {
+			if (right_cube1[i] == 0 && right_matrix[i] == 0) {
 				continue;
-			}else{
-				if((right_cube1[i] ^ right_matrix[i]) == 0){
+			} else {
+				if ((right_cube1[i] ^ right_matrix[i]) == 0) {
 					result = false;
 					break;
 				}
 			}
 		}
-		
+
 		return result;
 	}
 
