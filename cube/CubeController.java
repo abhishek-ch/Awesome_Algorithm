@@ -93,6 +93,22 @@ public class CubeController {
 				OutputStructure.updateOutput(matrix, 5, 15);
 			}
 			break;
+		case 5:
+			mainMiddle = cubeList.get(1); // middle cube
+			Cube aftertwoMainMiddle = cubeList.get(4);
+			// if last element is the idle position
+			if (fitBottomBasicSequence(aftertwoMainMiddle, matrix)) {
+				cube = new Cube(matrix);
+				cubeList.add(cube);
+				cube.linkedEdge = Edge.BOTTOM;
+				OutputStructure.updateOutput(matrix, 25, 15);
+			} else if (fitTopBasicSequence(mainMiddle, matrix)) {
+				cube = new Cube(matrix);
+				cubeList.add(cube);
+				cube.linkedEdge = Edge.TOP;
+				OutputStructure.updateOutput(matrix, 5, 15);
+			}
+			break;
 
 		default:
 			System.err.println("Not Expecting More blocks into 6 Piece Cibe");

@@ -180,7 +180,7 @@ public class DeriveMatrix {
 	}
 
 	public List<Cube> backtrack(int slotid, List<int[][]> pieces_left) {
-		if (slotid == 5) {
+		if (slotid == 6) {
 			System.err.println("--------------------------------------");
 			List<Cube> list = controller.getList();
 			// printPattern(list);
@@ -231,6 +231,7 @@ public class DeriveMatrix {
 		int[][] convertToArray3 = convertToArray(tPiece2);
 		int[][] convertToArray4 = convertToArray(tPiece3);
 		int[][] convertToArray5 = convertToArray(tPiece5);
+		int[][] convertToArray6 = convertToArray(tPiece4);
 
 		List<int[][]> listOfMatrix = new ArrayList<>();
 
@@ -239,6 +240,7 @@ public class DeriveMatrix {
 		listOfMatrix.add(convertToArray3);
 		listOfMatrix.add(convertToArray4);
 		listOfMatrix.add(convertToArray5);
+		listOfMatrix.add(convertToArray6);
 		trigger(listOfMatrix);
 		List<Cube> backtrack = backtrack(0, listOfMatrix);
 		// System.err.println(controller.getList().size());
