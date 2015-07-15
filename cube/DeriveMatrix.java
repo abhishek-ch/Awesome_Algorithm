@@ -30,29 +30,23 @@ public class DeriveMatrix {
 	}
 
 	private void printPattern(List<Cube> list) {
-		List<String> listOutput = new ArrayList<>();
-		for (Cube cube : list) {
-			String output = "";
-			int[][] element = cube.getElement();
-			for (int i = 0; i < element.length; i++) {
-				for (int j = 0; j < element[0].length; j++) {
-					output += (element[i][j] == 0) ? " " : "o";
-				}
-				if (i < element.length - 1)
-					output += "\n";
-			}
-			System.out.print(output + "\r");
-			listOutput.add(output);
-			// TODO do this
-			Edge linkedEdge = cube.linkedEdge;
-			// if (linkedEdge == Edge.NONE) {
 
+		List<int[][]> proxy = new ArrayList<>();
+		for (Cube is : list) {
+			proxy.add(is.getElement());
 		}
-		String main = "";
-		for (String string : listOutput) {
-			// System.out.print(string + "\r");
+
+		// System.err.println("-");
+		for (int i = 0; i < 5; i++) {
+
+			for (int j = 0; j < proxy.size(); j++) {
+				int[][] ks = proxy.get(j);
+				for (int k = 0; k < 5; k++) {
+					System.out.print(ks[i][k] == 0 ? " " : "o");
+				}
+			}
+			System.out.println("");
 		}
-		// System.out.println(main);
 
 	}
 
@@ -223,12 +217,14 @@ public class DeriveMatrix {
 
 	}
 
-	public void backtrack(int slotid, List<int[][]> pieces_left) {
-		if (slotid == 3) {
+	public List<Cube> backtrack(int slotid, List<int[][]> pieces_left) {
+		if (slotid == 4) {
+			System.err.println("--------------------------------------");
 			List<Cube> list = controller.getList();
-			printPattern(list);
+			// printPattern(list);
+			OutputStructure.print();
 			System.exit(0);
-			return;
+			return list;
 		}
 
 		for (int[][] piece : pieces_left) {
@@ -243,6 +239,7 @@ public class DeriveMatrix {
 				}
 			}
 		}
+		return null;
 
 	}
 
@@ -270,43 +267,21 @@ public class DeriveMatrix {
 		int[][] convertToArray1 = convertToArray(tPiece0);
 		int[][] convertToArray2 = convertToArray(tPiece1);
 		int[][] convertToArray3 = convertToArray(tPiece2);
+		int[][] convertToArray4 = convertToArray(tPiece3);
 		List<int[][]> listOfMatrix = new ArrayList<>();
 
 		listOfMatrix.add(convertToArray1);
 		listOfMatrix.add(convertToArray2);
 		listOfMatrix.add(convertToArray3);
+		listOfMatrix.add(convertToArray4);
 		trigger(listOfMatrix);
-		backtrack(0, listOfMatrix);
-
+		List<Cube> backtrack = backtrack(0, listOfMatrix);
+		// System.err.println(controller.getList().size());
+		// printPattern(controller.getList());
 	}
 
 	public static void main(String[] args) {
 		DeriveMatrix deriveMatrix = new DeriveMatrix();
-
-		// int[][] flipInPlace = deriveMatrix.flipInPlace(convertToArray);
-		// deriveMatrix.findAllPossibleRightRotations(flipInPlace);
-		// convertToArray = deriveMatrix.mirror(convertToArray[0].length,
-		// convertToArray.length, convertToArray);
-		// int[][] convertToArray2 = deriveMatrix.convertToArray(tPiece1);
-
-		// System.err.println(Arrays.deepEquals(convertToArray,
-		// convertToArray2));
-		// deriveMatrix.findAllPossibleRightRotations(convertToArray);
-		// deriveMatrix.findAllPossibleRightRotations(convertToArray);
-		// convertToArray = deriveMatrix.convertToArray(tPiece2);
-		// convertToArray = deriveMatrix.convertToArray(tPiece3);
-		// deriveMatrix.rotateClockWise(convertToArray);
-		// deriveMatrix.rotateAntiClockwise(convertToArray);
-		// int[][] flipLeftToRight =
-		// deriveMatrix.flipLeftToRight(convertToArray);
-		// deriveMatrix.rotateClockWise(flipLeftToRight);
-		// deriveMatrix.rotateAntiClockwise(flipLeftToRight);
-
-		// deriveMatrix.convertToArray(tPiece1);
-		// deriveMatrix.convertToArray(tPiece2);
-		// deriveMatrix.convertToArray(tPiece3);
-		// deriveMatrix.convertToArray(tPiece4);
-		// deriveMatrix.convertToArray(tPiece5);
 
 	}
 
