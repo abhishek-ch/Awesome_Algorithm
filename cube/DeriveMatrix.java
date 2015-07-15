@@ -25,41 +25,18 @@ public class DeriveMatrix {
 			}
 			rowIndex++;
 		}
-		// printGrid(matrix);
 		return matrix;
 	}
 
-	public void printGrid(int[][] a) {
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
-				System.out.printf("%2d", a[i][j]);
-			}
-			System.out.println();
-		}
-		System.out.println("-------------");
-		// System.out.println(Arrays.deepToString(a));
-	}
 
-	public void printSmart(List<int[][]> listMatrix) {
-		for (int[][] is : listMatrix) {
-			for (int i = 0; i < 5; i++) {
-				for (int j = 0; j < 5; j++) {
-					System.out.printf("%2d", is[i][j]);
-				}
-				System.out.println();
-			}
-			System.out.println("\n\n=====================");
-		}
-	}
 
-	// *** THIS IS THE METHOD YOU CARE ABOUT ***
+
 	public int[][] flipInPlace(int[][] theArray) {
 		for (int i = 0; i < (theArray.length / 2); i++) {
 			int[] temp = theArray[i];
 			theArray[i] = theArray[theArray.length - i - 1];
 			theArray[theArray.length - i - 1] = temp;
 		}
-		// printGrid(theArray);
 		return theArray;
 	}
 
@@ -73,7 +50,6 @@ public class DeriveMatrix {
 				pixels[i][pixels[0].length - 1 - curr] = saved;
 			}
 		}
-		// printGrid(pixels);
 		return pixels;
 	}
 
@@ -84,7 +60,6 @@ public class DeriveMatrix {
 				out[i][width - j - 1] = in[i][j];
 			}
 		}
-		// printGrid(out);
 		return out;
 	}
 
@@ -97,7 +72,6 @@ public class DeriveMatrix {
 				rotate[i][pixels.length - 1 - j] = pixels[j][i];
 			}
 		}
-		// printGrid(rotate);
 		return rotate;
 	}
 
@@ -110,19 +84,16 @@ public class DeriveMatrix {
 				newarray[pixels[0].length - 1 - j][i] = pixels[i][j];
 			}
 		}
-		// printGrid(newarray);
 
 		return newarray;
 	}
 
 	public List<int[][]> findAllPossibleRightRotations(int[][] matrix) {
 		List<int[][]> allPossibleRotations = new ArrayList<>();
-		// allPossibleRotations.add(matrix);
 		for (int i = 0; i < 3; i++) {
 			matrix = rotateClockWise(matrix);
 			allPossibleRotations.add(matrix);
 		}
-		// printSmart(allPossibleRotations);
 		return allPossibleRotations;
 	}
 
@@ -133,7 +104,6 @@ public class DeriveMatrix {
 			matrix = rotateAntiClockwise(matrix);
 			allPossibleRotations.add(matrix);
 		}
-		// printSmart(allPossibleRotations);
 		return allPossibleRotations;
 	}
 
@@ -141,16 +111,11 @@ public class DeriveMatrix {
 		List<int[][]> allPossibleRotations = new ArrayList<>();
 		allPossibleRotations.add(matrix);
 		allPossibleRotations.add(flipInPlace(matrix));
-		allPossibleRotations
-				.add(mirror(matrix[0].length, matrix.length, matrix));
+		allPossibleRotations.add(mirror(matrix[0].length, matrix.length, matrix));
 
-		allPossibleRotations
-				.addAll(findAllPossibleRightRotations(allPossibleRotations
-						.get(0)));
+		allPossibleRotations.addAll(findAllPossibleRightRotations(allPossibleRotations.get(0)));
 
-		allPossibleRotations
-				.addAll(findAllPossibleRightRotations(allPossibleRotations
-						.get(2)));
+		allPossibleRotations.addAll(findAllPossibleRightRotations(allPossibleRotations.get(2)));
 
 		return allPossibleRotations;
 	}
@@ -167,33 +132,19 @@ public class DeriveMatrix {
 
 	}
 
-	public List<Cube> buildBlankCubeStructure(int count) {
-		// build 3- based Pattern Cube
-		List<Cube> cubeList = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			Cube cube = new Cube();
-			cubeList.add(cube);
-		}
-
-		return cubeList;
-
-	}
 
 	public List<Cube> backtrack(int slotid, List<int[][]> pieces_left) {
 		if (slotid == 6) {
-			System.err.println("--------------------------------------");
 			List<Cube> list = controller.getList();
-			// printPattern(list);
-			OutputStructure.print();
-			System.exit(0);
+			OutputStructure.betterPrint(controller.getList());
+			// System.exit(0);
 			return list;
 		}
 
 		for (int[][] piece : pieces_left) {
 			List<int[][]> list = tracker.get(piece);
 			for (int[][] orientationPiece : list) {
-				List<Cube> buildCubeBlock = controller.buildCubeBlock(slotid,
-						orientationPiece);
+				List<Cube> buildCubeBlock = controller.buildCubeInfrastructure(orientationPiece);
 				if (buildCubeBlock.size() == slotid + 1) {
 					List<int[][]> subList = new ArrayList<int[][]>(pieces_left);
 					subList.remove(piece);
@@ -205,14 +156,6 @@ public class DeriveMatrix {
 
 	}
 
-	public void buildCubeSymettry() {
-
-	}
-
-	public void start() {
-		List<Cube> buildCube = controller.buildCube(3);
-	}
-
 	CubeController controller;
 
 	public DeriveMatrix() {
@@ -220,20 +163,20 @@ public class DeriveMatrix {
 		controller = new CubeController();
 
 		// BLUE
-		// String[] tPiece0 = { "  o  ", " ooo ", "ooooo", " ooo ", "  o  " };
-		// String[] tPiece1 = { "  o o", "ooooo", " ooo ", "ooooo", " o oo" };
-		// String[] tPiece2 = { " o o ", " ooo ", "ooooo", " ooo ", "  o  " };
-		// String[] tPiece3 = { "o o  ", "ooooo", " ooo ", "ooooo", " o o " };
-		// String[] tPiece4 = { "o o o", "ooooo", " ooo ", "ooooo", "o o o" };
-		// String[] tPiece5 = { " o o ", "oooo ", " oooo", "oooo ", "oo o " };
+//		String[] tPiece0 = { "  o  ", " ooo ", "ooooo", " ooo ", "  o  " };
+//		String[] tPiece1 = { "  o o", "ooooo", " ooo ", "ooooo", " o oo" };
+//		String[] tPiece2 = { " o o ", " ooo ", "ooooo", " ooo ", "  o  " };
+//		String[] tPiece3 = { "o o  ", "ooooo", " ooo ", "ooooo", " o o " };
+//		String[] tPiece4 = { "o o o", "ooooo", " ooo ", "ooooo", "o o o" };
+//		String[] tPiece5 = { " o o ", "oooo ", " oooo", "oooo ", "oo o " };
 
 		// RED
-		String[] tPiece0 = { "   oo", " ooo ", "ooooo", " ooo ", " o oo" };
-		String[] tPiece1 = { "  o o", "oooo ", " oooo", "oooo ", " o   " };
-		String[] tPiece2 = { " oo o", "ooooo", " ooo ", "ooooo", "o  oo" };
-		String[] tPiece3 = { "  o  ", "oooo ", " oooo", "oooo ", "  o  " };
-		String[] tPiece4 = { "  oo ", "ooooo", " ooo ", "ooooo", "o o  " };
-		String[] tPiece5 = { " oo  ", " ooo ", "ooooo", " ooo ", "oo oo" };
+		 String[] tPiece0 = { " oo", " ooo ", "ooooo", " ooo ", " o oo" };
+		 String[] tPiece1 = { " o o", "oooo ", " oooo", "oooo ", " o " };
+		 String[] tPiece2 = { " oo o", "ooooo", " ooo ", "ooooo", "o oo" };
+		 String[] tPiece3 = { " o ", "oooo ", " oooo", "oooo ", " o " };
+		 String[] tPiece4 = { " oo ", "ooooo", " ooo ", "ooooo", "o o " };
+		 String[] tPiece5 = { " oo ", " ooo ", "ooooo", " ooo ", "oo oo" };
 
 		int[][] convertToArray1 = convertToArray(tPiece0);
 		int[][] convertToArray2 = convertToArray(tPiece1);
@@ -262,10 +205,3 @@ public class DeriveMatrix {
 	}
 
 }
-
-/*
- * Copyright 2004-2015 Pilz Ireland Industrial Automation Ltd. All Rights
- * Reserved. PILZ PROPRIETARY/CONFIDENTIAL.
- * 
- * Created on 14 Jul 2015
- */

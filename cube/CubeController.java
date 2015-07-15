@@ -5,16 +5,6 @@ import java.util.List;
 
 public class CubeController {
 
-	public List<Cube> buildCube(int count) {
-		List<Cube> cubeList = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			Cube cube = new Cube();
-			cubeList.add(cube);
-		}
-
-		return cubeList;
-
-	}
 
 	private List<Cube> cubeList = new ArrayList<>();
 
@@ -22,100 +12,85 @@ public class CubeController {
 		return cubeList;
 	}
 
-	/**
-	 * basic looping for arranging cubes one after another
-	 * 
-	 * @param sequence
-	 * @param matrix
-	 * @return
-	 */
-	public List<Cube> buildCubeBlock(int sequence, int[][] matrix) {
-		switch (sequence) {
-		case 0:
-			// since just a blank scenario , add the cube
-			Cube cube = new Cube(matrix);
-			cubeList.add(cube);
-			cube.linkedEdge = Edge.NONE;
-			OutputStructure.updateOutput(matrix, 10, 10);
-			break;
-
-		case 1:
-			Cube cube1 = cubeList.get(0);
-			if (fitRightBasicSequence(cube1, matrix)) {
-				cube = new Cube(matrix);
+	public List<Cube> buildCubeInfrastructure(int[][] matrix) {
+		try {
+			if (cubeList.size() > 0) {
+				for (int i = 0; i < cubeList.size(); i++) {
+					Cube cube = cubeList.get(i);
+					if (cube.left == null && fitLeftBasicSequence(cube, matrix)) {
+						Cube leftcube = new Cube(matrix);
+						// reset the left
+						leftcube.setStartIndex(cube.getStartIndex());
+						leftcube.setStartColumn(cube.getStartColumn() - 5);
+						cube.left = leftcube;
+						leftcube.right = cube;
+						cubeList.add(leftcube);
+						updateStore(matrix, leftcube.getStartIndex(), leftcube.getStartColumn());
+						// System.out.println(cube.getStartIndex()+" =
+						// "+(cube.getStartColumn()-5)+" LEFT");
+						break;
+					} else if (cube.right == null && fitRightBasicSequence(cube, matrix)) {
+						Cube newcube = new Cube(matrix);
+						cube.right = newcube;
+						newcube.left = cube;
+						newcube.setStartIndex(cube.getStartIndex());
+						newcube.setStartColumn(cube.getStartColumn() + 5);
+						updateStore(matrix, newcube.getStartIndex(), newcube.getStartColumn());
+						cubeList.add(newcube);
+						// System.out.println(cube.getStartIndex()+" =
+						// "+(cube.getStartColumn()+5)+" RIGHT");
+						break;
+					} else if (cube.top == null && fitTopBasicSequence(cube, matrix)) {
+						Cube newcube = new Cube(matrix);
+						cube.top = newcube;
+						newcube.bottom = cube;
+						newcube.setStartIndex(cube.getStartIndex() - 5);
+						newcube.setStartColumn(cube.getStartColumn());
+						updateStore(matrix, newcube.getStartIndex(), newcube.getStartColumn());
+						// System.out.println((cube.getStartIndex()-5)+" =
+						// "+(cube.getStartColumn())+" TOP");
+						cubeList.add(newcube);
+						break;
+					} else if (cube.bottom == null && fitBottomBasicSequence(cube, matrix)) {
+						Cube newcube = new Cube(matrix);
+						cube.bottom = newcube;
+						newcube.top = cube;
+						newcube.setStartIndex(cube.getStartIndex() + 5);
+						newcube.setStartColumn(cube.getStartColumn());
+						updateStore(matrix, newcube.getStartIndex(), newcube.getStartColumn());
+						cubeList.add(newcube);
+						// System.out.println((cube.getStartIndex()+5)+" =
+						// "+(cube.getStartColumn())+" BOTTOM");
+						break;
+					}
+				}
+			} else {
+				Cube cube = new Cube(matrix);
 				cubeList.add(cube);
-				cube.linkedEdge = Edge.RIGHT;
-				OutputStructure.updateOutput(matrix, 10, 15);
+				cube.setStartIndex(10);
+				cube.setStartColumn(10);
+				updateStore(matrix, 10, 10);
 			}
-			break;
-		case 2:
-			Cube cube2 = cubeList.get(1);
-			if (fitRightBasicSequence(cube2, matrix)) {
-				cube = new Cube(matrix);
-				cubeList.add(cube);
-				cube.linkedEdge = Edge.RIGHT;
-				OutputStructure.updateOutput(matrix, 10, 20);
-			}
-			break;
-
-		case 3:
-			// TODO optmize this piece of code
-			// here we gotta check middle element and we need to verify top as
-			// well as bottom side
-			// of it may be it fits somewhere
-			Cube mainMiddle = cubeList.get(1); // middle cube
-			if (fitBottomBasicSequence(mainMiddle, matrix)) {
-				cube = new Cube(matrix);
-				cubeList.add(cube);
-				cube.linkedEdge = Edge.BOTTOM;
-				OutputStructure.updateOutput(matrix, 15, 15);
-			} else if (fitTopBasicSequence(mainMiddle, matrix)) {
-				cube = new Cube(matrix);
-				cubeList.add(cube);
-				cube.linkedEdge = Edge.TOP;
-				OutputStructure.updateOutput(matrix, 5, 15);
-			}
-			break;
-
-		case 4:
-			mainMiddle = cubeList.get(1); // middle cube
-			Cube afterMainMiddle = cubeList.get(3);
-			// if last element is the idle position
-			if (fitBottomBasicSequence(afterMainMiddle, matrix)) {
-				cube = new Cube(matrix);
-				cubeList.add(cube);
-				cube.linkedEdge = Edge.BOTTOM;
-				OutputStructure.updateOutput(matrix, 20, 15);
-			} else if (fitTopBasicSequence(mainMiddle, matrix)) {
-				cube = new Cube(matrix);
-				cubeList.add(cube);
-				cube.linkedEdge = Edge.TOP;
-				OutputStructure.updateOutput(matrix, 5, 15);
-			}
-			break;
-		case 5:
-			mainMiddle = cubeList.get(1); // middle cube
-			Cube aftertwoMainMiddle = cubeList.get(4);
-			// if last element is the idle position
-			if (fitBottomBasicSequence(aftertwoMainMiddle, matrix)) {
-				cube = new Cube(matrix);
-				cubeList.add(cube);
-				cube.linkedEdge = Edge.BOTTOM;
-				OutputStructure.updateOutput(matrix, 25, 15);
-			} else if (fitTopBasicSequence(mainMiddle, matrix)) {
-				cube = new Cube(matrix);
-				cubeList.add(cube);
-				cube.linkedEdge = Edge.TOP;
-				OutputStructure.updateOutput(matrix, 5, 15);
-			}
-			break;
-
-		default:
-			System.err.println("Not Expecting More blocks into 6 Piece Cibe");
-			break;
+		} catch (Exception e) {
+			System.err.println("Error occured from : " + e.getLocalizedMessage());
 		}
+
 		return cubeList;
 	}
+
+	private void updateStore(int[][] matrix, int row, int column) {
+		int irow = 0;
+		int icol = 0;
+		for (int i = row; i < row + 5; i++) {
+			for (int j = column; j < column + 5; j++) {
+				store[i][j] = matrix[irow][icol++];
+			}
+			icol = 0;
+			irow++;
+		}
+	}
+
+	int[][] store = new int[40][40];
 
 	/**
 	 * if right sequence agreed to collaborate 1-0 XOR
@@ -125,23 +100,38 @@ public class CubeController {
 	 * @return
 	 */
 	private boolean fitRightBasicSequence(Cube cube, int[][] matrix) {
+		return xorColumns(cube.getRight(), Util.getLeft(matrix))
+				&& safeCheckBottomTopXor(cube.getStartIndex(), cube.getStartColumn() + 5, cube, matrix);
+	}
 
-		int[] right_cube1 = cube.getRight();
-		int[] right_matrix = Util.getLeft(matrix);
-		return xorColumns(right_cube1, right_matrix);
-
+	private boolean fitLeftBasicSequence(Cube cube, int[][] matrix) {
+		return xorColumns(cube.getLeft(), Util.getRight(matrix))
+				&& safeCheckBottomTopXor(cube.getStartIndex(), cube.getStartColumn() - 5, cube, matrix);
 	}
 
 	private boolean fitTopBasicSequence(Cube cube, int[][] matrix) {
-		int[] topCube = cube.getTop();
-		int[] bottomCube = Util.getBottom(matrix);
-		return xorColumns(topCube, bottomCube);
+		return xorColumns(Util.getBottom(matrix), cube.getTop())
+				&& safeCheckBottomTopXor(cube.getStartIndex() - 5, cube.getStartColumn(), cube, matrix);
 	}
 
 	private boolean fitBottomBasicSequence(Cube cube, int[][] matrix) {
-		int[] topCube = Util.getTop(matrix);
-		int[] bottomCube = cube.getBottom();
-		return xorColumns(bottomCube, topCube);
+		return xorColumns(cube.getBottom(), Util.getTop(matrix))
+				&& safeCheckBottomTopXor(cube.getStartIndex() + 5, cube.getStartColumn(), cube, matrix);
+	}
+
+	// TODO anything can be done
+	private boolean validatePositionOfPieceInCube(Cube cube, int[][] matrix, int row, int column) {
+		return xorColumns(cube.getBottom(), Util.getTop(matrix)) && safeCheckBottomTopXor(row, column, cube, matrix);
+	}
+
+	private boolean safeCheckBottomTopXor(int oRow, int oCol, Cube cube, int[][] matrix)
+			throws ArrayIndexOutOfBoundsException {
+		int[] test2 = { store[oRow + 5][oCol], store[oRow + 5][oCol + 1], store[oRow + 5][oCol + 2],
+				store[oRow + 5][oCol + 3], store[oRow + 5][oCol + 4] };// bottom
+		int[] test3 = { store[oRow - 1][oCol], store[oRow - 1][oCol + 1], store[oRow - 1][oCol + 2],
+				store[oRow - 1][oCol + 3], store[oRow - 1][oCol + 4] };// top
+
+		return xorColumns(Util.getBottom(matrix), test2) && xorColumns(Util.getTop(matrix), test3);
 	}
 
 	private boolean xorColumns(int[] thisCube, int[] otherCube) {

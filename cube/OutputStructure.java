@@ -1,5 +1,7 @@
 package cube;
 
+import java.util.List;
+
 public class OutputStructure {
 
 	private static int[][] outputArr = new int[90][90];
@@ -32,6 +34,24 @@ public class OutputStructure {
 			}
 			System.out.println();
 		}
+	}
+
+	public static void betterPrint(List<Cube> list) {
+		for (Cube cube : list) {
+			int[][] element = cube.getElement();
+			int column = cube.getStartColumn();
+			int row = cube.getStartIndex();
+			int irow=0;
+			int icol = 0;
+			for(int i=row;i<row+5;i++){
+				for(int j=column;j<column+5;j++){
+					outputArr[i][j] = element[irow][icol++];
+				}
+				icol = 0;
+				irow++;
+			}
+		}
+		print();
 	}
 
 }

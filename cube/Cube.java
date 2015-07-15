@@ -4,14 +4,33 @@ public class Cube {
 
 	int[][] element = new int[5][5];
 
-	public Edge linkedEdge;
+	//hold the reference of adjacent Node
+	Cube left;
+	Cube right;
+	Cube top;
+	Cube bottom;
+	
+	//maintains the start row and column index
+	int startRow;
+	int startColumn;
+
+	public int getStartColumn() {
+		return startColumn;
+	}
+
+
+	public void setStartColumn(int startColumn) {
+		this.startColumn = startColumn;
+	}
+
 
 	public Cube(int[][] element) {
 		this.element = element;
 	}
+	
 
 	public Cube() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public int[] getLeft() {
@@ -40,5 +59,13 @@ public class Cube {
 
 	public int[][] getElement() {
 		return element;
+	}
+
+	public void setStartIndex(int startIndex) {
+		this.startRow = startIndex;
+	}
+
+	public int getStartIndex() {
+		return startRow;
 	}
 }

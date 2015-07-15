@@ -25,4 +25,15 @@ public class Util {
 	public static int[] getBottom(int[][] element) {
 		return element[element.length - 1];
 	}
+	
+	public static void printGrid(int[][] a) {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				System.out.printf("%2d", a[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println("-------------");
+		// System.out.println(Arrays.deepToString(a));
+	}
 }
