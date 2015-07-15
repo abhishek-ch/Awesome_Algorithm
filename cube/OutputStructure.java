@@ -24,7 +24,7 @@ public class OutputStructure {
 	}
 
 	public static void print() {
-		System.out.println("PRINITING");
+		System.out.println("Printing...");
 		// TODO write algorithm to print
 		for (int i = 0; i < 90; i++) {
 			for (int j = 0; j < 90; j++) {

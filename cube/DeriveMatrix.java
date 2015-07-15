@@ -29,27 +29,6 @@ public class DeriveMatrix {
 		return matrix;
 	}
 
-	private void printPattern(List<Cube> list) {
-
-		List<int[][]> proxy = new ArrayList<>();
-		for (Cube is : list) {
-			proxy.add(is.getElement());
-		}
-
-		// System.err.println("-");
-		for (int i = 0; i < 5; i++) {
-
-			for (int j = 0; j < proxy.size(); j++) {
-				int[][] ks = proxy.get(j);
-				for (int k = 0; k < 5; k++) {
-					System.out.print(ks[i][k] == 0 ? " " : "o");
-				}
-			}
-			System.out.println("");
-		}
-
-	}
-
 	public void printGrid(int[][] a) {
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
@@ -69,7 +48,7 @@ public class DeriveMatrix {
 				}
 				System.out.println();
 			}
-			System.out.println("\n\n");
+			System.out.println("\n\n=====================");
 		}
 	}
 
@@ -173,23 +152,6 @@ public class DeriveMatrix {
 				.addAll(findAllPossibleRightRotations(allPossibleRotations
 						.get(2)));
 
-		// allPossibleRotations
-		// .addAll(findAllPossibleRightRotations(allPossibleRotations
-		// .get(1)));
-		// allPossibleRotations.addAll(findAllPossibleRightRotations(matrix));
-		// System.out.println(allPossibleRotations.size()); // 4
-
-		// allPossibleRotations
-		// .add(mirror(matrix[0].length, matrix.length, matrix));
-		// System.out.println(allPossibleRotations.size()); // 5
-
-		// int[][] flipInPlace = flipInPlace(matrix);
-		// allPossibleRotations.add(flipInPlace);
-		// System.out.println(allPossibleRotations.size()); // 6
-
-		// allPossibleRotations.addAll(findAllPossibleRightRotations(flipInPlace));
-		// System.out.println(allPossibleRotations.size());
-		// printSmart(allPossibleRotations);
 		return allPossibleRotations;
 	}
 
@@ -218,7 +180,7 @@ public class DeriveMatrix {
 	}
 
 	public List<Cube> backtrack(int slotid, List<int[][]> pieces_left) {
-		if (slotid == 4) {
+		if (slotid == 5) {
 			System.err.println("--------------------------------------");
 			List<Cube> list = controller.getList();
 			// printPattern(list);
@@ -268,12 +230,15 @@ public class DeriveMatrix {
 		int[][] convertToArray2 = convertToArray(tPiece1);
 		int[][] convertToArray3 = convertToArray(tPiece2);
 		int[][] convertToArray4 = convertToArray(tPiece3);
+		int[][] convertToArray5 = convertToArray(tPiece5);
+
 		List<int[][]> listOfMatrix = new ArrayList<>();
 
 		listOfMatrix.add(convertToArray1);
 		listOfMatrix.add(convertToArray2);
 		listOfMatrix.add(convertToArray3);
 		listOfMatrix.add(convertToArray4);
+		listOfMatrix.add(convertToArray5);
 		trigger(listOfMatrix);
 		List<Cube> backtrack = backtrack(0, listOfMatrix);
 		// System.err.println(controller.getList().size());
