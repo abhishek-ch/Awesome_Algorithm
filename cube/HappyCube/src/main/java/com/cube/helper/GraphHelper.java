@@ -4,21 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * *******************************************************************
  * This class is responsible for handling all the rotations of any Node
  * As its Matrix, so its rotating matrix in every direction clock-wise
  * anticlock wise
  * 
  * It as well mainatins a method for mirror and flip
  * 
- * @author achoudhary
- * @version 1.0.0
- ******************************************************************** 
+ * @author abc
+ *
  */
 public class GraphHelper
 {
 
-
+	/**
+	 * returns the flipping of entire block/piece
+	 * @param theArray the original block content as matrix
+	 * @return
+	 */
    public static int[][] flipInPlace(int[][] theArray)
    {
       for (int i = 0; i < (theArray.length / 2); i++)
@@ -30,54 +32,72 @@ public class GraphHelper
       return theArray;
    }
 
-
-   public static int[][] flipLeftToRight(int[][] pixels)
+   /**
+    * flip the block from left to right
+    * @param theArray theArray the original block content as matrix
+    * @return
+    */
+   public static int[][] flipLeftToRight(int[][] theArray)
    {
 
-      for (int i = 0; i < pixels.length; i++)
+      for (int i = 0; i < theArray.length; i++)
       {
-         for (int curr = 0; curr < (pixels[0].length + 1) / 2; curr++)
+         for (int curr = 0; curr < (theArray[0].length + 1) / 2; curr++)
          {
 
-            int saved = pixels[i][curr];
-            pixels[i][curr] = pixels[i][pixels[0].length - 1 - curr];
-            pixels[i][pixels[0].length - 1 - curr] = saved;
+            int saved = theArray[i][curr];
+            theArray[i][curr] = theArray[i][theArray[0].length - 1 - curr];
+            theArray[i][theArray[0].length - 1 - curr] = saved;
          }
       }
-      return pixels;
+      return theArray;
    }
 
-
-   public static int[][] mirror(int width, int height, int[][] in)
+   /**
+    * returns the mirror of cube
+    * @param width columns
+    * @param height number of rows
+    * @param theArray 
+    * @return 
+    */
+   public static int[][] mirror(int width, int height, int[][] theArray)
    {
       int[][] out = new int[height][width];
       for (int i = 0; i < height; i++)
       {
          for (int j = 0; j < width; j++)
          {
-            out[i][width - j - 1] = in[i][j];
+            out[i][width - j - 1] = theArray[i][j];
          }
       }
       return out;
    }
 
-
-   public static int[][] rotateClockWise(int[][] pixels)
+   /**
+    * rotates the matrix to clock wise
+    * @param pixels
+    * @return
+    */
+   public static int[][] rotateClockWise(int[][] theArray)
    {
 
-      int[][] rotate = new int[pixels[0].length][pixels.length];
+      int[][] rotate = new int[theArray[0].length][theArray.length];
 
-      for (int i = 0; i < pixels[0].length; i++)
+      for (int i = 0; i < theArray[0].length; i++)
       {
-         for (int j = 0; j < pixels.length; j++)
+         for (int j = 0; j < theArray.length; j++)
          {
-            rotate[i][pixels.length - 1 - j] = pixels[j][i];
+            rotate[i][theArray.length - 1 - j] = theArray[j][i];
          }
       }
       return rotate;
    }
 
-
+   /**
+    * rotates the component anti clock-wise
+    * @param pixels
+    * @return
+    */
    public static int[][] rotateAntiClockwise(int[][] pixels)
    {
 
@@ -94,7 +114,11 @@ public class GraphHelper
       return newarray;
    }
 
-
+   /**
+    * returns all 360 rotations in clock-wise in given matrix
+    * @param matrix
+    * @return
+    */
    public static List<int[][]> findAllPossibleRightRotations(int[][] matrix)
    {
       List<int[][]> allPossibleRotations = new ArrayList<>();
@@ -106,7 +130,11 @@ public class GraphHelper
       return allPossibleRotations;
    }
 
-
+   /**
+    * returns all 360 rotations made anti clock-wise in given matrix
+    * @param matrix
+    * @return
+    */
    public static List<int[][]> findAllPossibleLefttRotations(int[][] matrix)
    {
       List<int[][]> allPossibleRotations = new ArrayList<>();
@@ -118,7 +146,11 @@ public class GraphHelper
       return allPossibleRotations;
    }
 
-
+   /**
+    * find all orientations of any matrix or piece provided
+    * @param matrix
+    * @return
+    */
    public static List<int[][]> findAllOrientations(int[][] matrix)
    {
       List<int[][]> allPossibleRotations = new ArrayList<>();

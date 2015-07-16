@@ -4,7 +4,6 @@ import com.cube.helper.Util;
 import com.cube.model.Cube;
 
 /**
- * *******************************************************************
  * This class holds the responsibility for validation the cube .
  * Ideally a cube is nothing but a Graph Node in datastructure.
  * 
@@ -12,9 +11,8 @@ import com.cube.model.Cube;
  * 4. More details {@link Cube} Since its being maintained by Graph, so traversing became simply
  * like DFS over any Graph or Tree
  * 
- * @author achoudhary
- * @version 1.0.0
- ******************************************************************** 
+ * @author abc
+ *
  */
 public class CubeValidation
 {
@@ -23,9 +21,9 @@ public class CubeValidation
    /**
     * if right sequence agreed to collaborate 1-0 XOR
     * 
-    * @param cube1
-    * @param matrix
-    * @return
+    * @param cube the main cube
+    * @param matrix to be compared with this 
+    * @return if matrix can be attached to right of the cube
     */
    public static boolean fitRightBasicSequence(Cube cube, int[][] matrix, int[][] store)
    {
@@ -34,7 +32,13 @@ public class CubeValidation
                   cube.getStartColumn() + 5, cube, matrix, store);
    }
 
-
+   /**
+    * if Left sequence agreed to collaborate 1-0 XOR
+    * 
+    * @param cube
+    * @param matrix
+    * @return if matrix can be attached to left of the cube
+    */
    public static boolean fitLeftBasicSequence(Cube cube, int[][] matrix, int[][] store)
    {
       return xorColumns(cube.getLeft(), Util.getRight(matrix))
@@ -42,7 +46,13 @@ public class CubeValidation
                   cube.getStartColumn() - 5, cube, matrix, store);
    }
 
-
+   /**
+    * if top sequence agreed to collaborate 1-0 XOR
+    * 
+    * @param cube
+    * @param matrix
+    * @return if matrix can be attached to top of the cube
+    */
    public static boolean fitTopBasicSequence(Cube cube, int[][] matrix, int[][] store)
    {
       return xorColumns(Util.getBottom(matrix), cube.getTop())
@@ -50,7 +60,13 @@ public class CubeValidation
                   cube.getStartColumn(), cube, matrix, store);
    }
 
-
+   /**
+    * if bottom sequence agreed to collaborate 1-0 XOR
+    * 
+    * @param cube
+    * @param matrix
+    * @return if matrix can be attached to bottom of the cube
+    */
    public static boolean fitBottomBasicSequence(Cube cube, int[][] matrix, int[][] store)
    {
       return xorColumns(cube.getBottom(), Util.getTop(matrix))
@@ -60,12 +76,12 @@ public class CubeValidation
 
 
    /**
-    * On placing component to any edge refrence of {@link Cube} ie left, right ...
-    * its must to see the sorrounding as well. Because validation is fine with the reference node, but
-    * there is a chance that the desired position has other neighbour as well.
+    * On placing component to any edge reference of {@link Cube} ie left, right ...
+    * its must to see the surrounding as well. Because validation is fine with the reference node, but
+    * there is a chance that the desired position has other neighbor as well.
     * 
-    * So conceptulize the thing , while adding any piece to Graph, this validates its verifies XORing with
-    * each side of its neighbour
+    * So conceptualize the thing , while adding any piece to Graph, this validates its verifies XORing with
+    * each side of its neighbor
     * 
     * @param oRow
     * @param oCol

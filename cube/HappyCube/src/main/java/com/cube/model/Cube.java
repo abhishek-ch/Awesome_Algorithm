@@ -1,5 +1,11 @@
 package com.cube.model;
 
+/**
+ * Model class of cube , like skeleton of any cube Block
+ * It behaves a graph with 4 nodes left , right , top and bottom
+ * @author abc
+ *
+ */
 public class Cube
 {
 

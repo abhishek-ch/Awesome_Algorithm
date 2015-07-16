@@ -1,12 +1,9 @@
 package com.cube.helper;
 
 /**
- * *******************************************************************
  * Holds the Constant
- * 
- * @author achoudhary
- * @version 1.0.0
- ******************************************************************** 
+ * @author abc
+ *
  */
 public interface Constant
 {
