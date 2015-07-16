@@ -1,5 +1,13 @@
 package com.cube.helper;
 
+/**
+ * *******************************************************************
+ * Holds the Constant
+ * 
+ * @author achoudhary
+ * @version 1.0.0
+ ******************************************************************** 
+ */
 public interface Constant
 {
 
@@ -8,10 +16,3 @@ public interface Constant
 
    public static final int COLUMN = 30;
 }
-
-/*
- * Copyright 2004-2015 Pilz Ireland Industrial Automation Ltd. All Rights
- * Reserved. PILZ PROPRIETARY/CONFIDENTIAL.
- * 
- * Created on 16 Jul 2015
- */

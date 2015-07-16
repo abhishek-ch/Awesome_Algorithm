@@ -24,7 +24,6 @@ public class OutputStructure
       {
          for (int j = 0; j < 5; j++)
          {
-            // System.out.printf("%2d", a[i][j]);
             outputArr[row + i][column + j] = input[i][j];
          }
          System.out.println();
@@ -50,7 +49,6 @@ public class OutputStructure
          }
          output += "\n";
       }
-      // System.out.println(output);
       console(output);
    }
 

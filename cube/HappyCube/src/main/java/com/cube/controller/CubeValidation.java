@@ -59,22 +59,49 @@ public class CubeValidation
    }
 
 
+   /**
+    * On placing component to any edge refrence of {@link Cube} ie left, right ...
+    * its must to see the sorrounding as well. Because validation is fine with the reference node, but
+    * there is a chance that the desired position has other neighbour as well.
+    * 
+    * So conceptulize the thing , while adding any piece to Graph, this validates its verifies XORing with
+    * each side of its neighbour
+    * 
+    * @param oRow
+    * @param oCol
+    * @param cube
+    * @param matrix
+    * @param store
+    * @return
+    * @throws ArrayIndexOutOfBoundsException
+    */
    private static boolean safeCheckBottomTopXor(int oRow, int oCol, Cube cube,
          int[][] matrix, int[][] store) throws ArrayIndexOutOfBoundsException
    {
       // System.out.println(" Orow " + oRow + " Col " + oCol);
-      int[] test2 = { store[oRow + 5][oCol], store[oRow + 5][oCol + 1],
+      int[] topLayerFromArray = { store[oRow + 5][oCol], store[oRow + 5][oCol + 1],
             store[oRow + 5][oCol + 2], store[oRow + 5][oCol + 3],
             store[oRow + 5][oCol + 4] };// bottom
-      int[] test3 = { store[oRow - 1][oCol], store[oRow - 1][oCol + 1],
+      int[] bottomLayerFromArray = { store[oRow - 1][oCol], store[oRow - 1][oCol + 1],
             store[oRow - 1][oCol + 2], store[oRow - 1][oCol + 3],
             store[oRow - 1][oCol + 4] };// top
 
-      return xorColumns(Util.getBottom(matrix), test2)
-            && xorColumns(Util.getTop(matrix), test3);
+      return xorColumns(Util.getBottom(matrix), topLayerFromArray)
+            && xorColumns(Util.getTop(matrix), bottomLayerFromArray);
    }
 
 
+   /**
+    * Since everything is based on matrix representation , simply use the concept of XOR.
+    * So if any 2 pieces can be fit together if either both the sides are 0 , or 1 side is
+    * 0 and other is 1.
+    * 
+    * So XORing simply did the job to validate cell position validation
+    * 
+    * @param thisCube
+    * @param otherCube
+    * @return
+    */
    private static boolean xorColumns(int[] thisCube, int[] otherCube)
    {
       boolean result = true;

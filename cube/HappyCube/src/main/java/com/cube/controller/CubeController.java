@@ -22,6 +22,26 @@ public class CubeController
    }
 
 
+   /**
+    * This method handles the representation of a Cube to its Unfolded form. This method is responsible for presentation
+    * the cube in Unfolded format. Its getting called recursively for each orientation of any piece of cube, all other
+    * occurance is being verified and the one which fits takes the advantage.
+    * 
+    * It defines a matrix named store(graph).Store is nothing but a representation of Graph For each iteration over cube orientations, it
+    * sets the
+    * value to the matrix store in the correct state.Matrix acts like a big blank graph which
+    * multiple nodes define with no definition.
+    * a) For sequence 0, it just a blank Cube , so it doesn't need to face any validation while adding to the
+    * graph. So first node being added to the graph. (node1)
+    * b) Then next node try to set to left of Node1. So while validating the same, it needs to make sure the xor
+    * status as defined in {@link CubeValidation}. Once thats achieved it adds the Node to left of node1 and it
+    * changes the graph edge references of both nodes 1 and 2.
+    * c) Following on each of the nodes, and there validation almost does the similar task only difference is reference setting
+    * 
+    * @param sequence
+    * @param matrix
+    * @return
+    */
    public List<Cube> buildUnfoldedCube(int sequence, int[][] matrix)
    {
       if (sequence == 0)
@@ -115,7 +135,15 @@ public class CubeController
    }
 
 
-   public List<Cube> buildCubeInfrastructure(int[][] matrix)
+   /**
+    * This method actively inherits the same concept as defined in method buildUnfoldedCube but this method
+    * doesn't work based on only unfolded representation.
+    * This method will check for all available locations over the graph to build a perfect match
+    * 
+    * @param matrix
+    * @return
+    */
+   public List<Cube> buildCubeInAnyForm(int[][] matrix)
    {
       try
       {
@@ -135,8 +163,6 @@ public class CubeController
                   cubeList.add(leftcube);
                   updateStore(matrix, leftcube.getStartIndex(),
                         leftcube.getStartColumn());
-                  // System.out.println(cube.getStartIndex()+" =
-                  // "+(cube.getStartColumn()-5)+" LEFT");
                   break;
                }
                else if (cube.right == null
@@ -150,8 +176,6 @@ public class CubeController
                   updateStore(matrix, newcube.getStartIndex(),
                         newcube.getStartColumn());
                   cubeList.add(newcube);
-                  // System.out.println(cube.getStartIndex()+" =
-                  // "+(cube.getStartColumn()+5)+" RIGHT");
                   break;
                }
                else if (cube.top == null
@@ -164,8 +188,6 @@ public class CubeController
                   newcube.setStartColumn(cube.getStartColumn());
                   updateStore(matrix, newcube.getStartIndex(),
                         newcube.getStartColumn());
-                  // System.out.println((cube.getStartIndex()-5)+" =
-                  // "+(cube.getStartColumn())+" TOP");
                   cubeList.add(newcube);
                   break;
                }
@@ -180,8 +202,6 @@ public class CubeController
                   updateStore(matrix, newcube.getStartIndex(),
                         newcube.getStartColumn());
                   cubeList.add(newcube);
-                  // System.out.println((cube.getStartIndex()+5)+" =
-                  // "+(cube.getStartColumn())+" BOTTOM");
                   break;
                }
             }
@@ -205,6 +225,13 @@ public class CubeController
    }
 
 
+   /**
+    * Update the Graph wil latest updated value to ensure the validation check
+    * 
+    * @param matrix
+    * @param row
+    * @param column
+    */
    private void updateStore(int[][] matrix, int row, int column)
    {
       int irow = 0;
