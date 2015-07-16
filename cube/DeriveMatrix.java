@@ -146,11 +146,11 @@ public class DeriveMatrix {
 		for (int[][] piece : pieces_left) {
 			List<int[][]> list = tracker.get(piece);
 			for (int[][] orientationPiece : list) {
-				List<Cube> buildCubeBlock = controller
-						.buildCubeInfrastructure(orientationPiece);
+				// List<Cube> buildCubeBlock = controller
+				// .buildCubeInfrastructure(orientationPiece);
 
-				// List<Cube> buildCubeBlock = controller.buildUnfoldedCube(
-				// slotid, orientationPiece);
+				List<Cube> buildCubeBlock = controller.buildUnfoldedCube(
+						slotid, orientationPiece);
 
 				if (buildCubeBlock.size() == slotid + 1) {
 					List<int[][]> subList = new ArrayList<int[][]>(pieces_left);
