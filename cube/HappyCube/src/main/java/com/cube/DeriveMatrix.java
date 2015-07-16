@@ -5,157 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.cube.controller.CubeController;
+import com.cube.helper.GraphHelper;
+import com.cube.helper.Util;
+import com.cube.model.Cube;
+
 public class DeriveMatrix
 {
 
-
-   private int[][] convertToArray(String[] cube)
-   {
-
-      int[][] matrix = new int[5][5];
-      int rowIndex = 0;
-
-      for (String row : cube)
-      {
-         char[] charArray = row.toCharArray();
-         int columnIndex = 0;
-         for (char c : charArray)
-         {
-            if (c == ' ')
-            {
-               matrix[rowIndex][columnIndex] = 0;
-            }
-            else
-            {
-               matrix[rowIndex][columnIndex] = 1;
-            }
-            columnIndex++;
-         }
-         rowIndex++;
-      }
-      return matrix;
-   }
-
-
-   public int[][] flipInPlace(int[][] theArray)
-   {
-      for (int i = 0; i < (theArray.length / 2); i++)
-      {
-         int[] temp = theArray[i];
-         theArray[i] = theArray[theArray.length - i - 1];
-         theArray[theArray.length - i - 1] = temp;
-      }
-      return theArray;
-   }
-
-
-   public int[][] flipLeftToRight(int[][] pixels)
-   {
-
-      for (int i = 0; i < pixels.length; i++)
-      {
-         for (int curr = 0; curr < (pixels[0].length + 1) / 2; curr++)
-         {
-
-            int saved = pixels[i][curr];
-            pixels[i][curr] = pixels[i][pixels[0].length - 1 - curr];
-            pixels[i][pixels[0].length - 1 - curr] = saved;
-         }
-      }
-      return pixels;
-   }
-
-
-   public int[][] mirror(int width, int height, int[][] in)
-   {
-      int[][] out = new int[height][width];
-      for (int i = 0; i < height; i++)
-      {
-         for (int j = 0; j < width; j++)
-         {
-            out[i][width - j - 1] = in[i][j];
-         }
-      }
-      return out;
-   }
-
-
-   public int[][] rotateClockWise(int[][] pixels)
-   {
-
-      int[][] rotate = new int[pixels[0].length][pixels.length];
-
-      for (int i = 0; i < pixels[0].length; i++)
-      {
-         for (int j = 0; j < pixels.length; j++)
-         {
-            rotate[i][pixels.length - 1 - j] = pixels[j][i];
-         }
-      }
-      return rotate;
-   }
-
-
-   public int[][] rotateAntiClockwise(int[][] pixels)
-   {
-
-      int[][] newarray = new int[pixels[0].length][pixels.length];
-
-      for (int i = 0; i < pixels.length; i++)
-      {
-         for (int j = 0; j < pixels[0].length; j++)
-         {
-            newarray[pixels[0].length - 1 - j][i] = pixels[i][j];
-         }
-      }
-
-      return newarray;
-   }
-
-
-   public List<int[][]> findAllPossibleRightRotations(int[][] matrix)
-   {
-      List<int[][]> allPossibleRotations = new ArrayList<>();
-      for (int i = 0; i < 3; i++)
-      {
-         matrix = rotateClockWise(matrix);
-         allPossibleRotations.add(matrix);
-      }
-      return allPossibleRotations;
-   }
-
-
-   public List<int[][]> findAllPossibleLefttRotations(int[][] matrix)
-   {
-      List<int[][]> allPossibleRotations = new ArrayList<>();
-      // allPossibleRotations.add(matrix);
-      for (int i = 0; i < 3; i++)
-      {
-         matrix = rotateAntiClockwise(matrix);
-         allPossibleRotations.add(matrix);
-      }
-      return allPossibleRotations;
-   }
-
-
-   public List<int[][]> findAllOrientations(int[][] matrix)
-   {
-      List<int[][]> allPossibleRotations = new ArrayList<>();
-      allPossibleRotations.add(matrix);
-      allPossibleRotations.add(flipInPlace(matrix));
-      allPossibleRotations
-            .add(mirror(matrix[0].length, matrix.length, matrix));
-
-      allPossibleRotations
-            .addAll(findAllPossibleRightRotations(allPossibleRotations
-                  .get(0)));
-
-      allPossibleRotations
-            .addAll(findAllPossibleRightRotations(allPossibleRotations
-                  .get(2)));
-
-      return allPossibleRotations;
-   }
 
    Map<int[][], List<int[][]>> tracker = new HashMap<>();
 
@@ -164,7 +21,7 @@ public class DeriveMatrix
    {
       for (int[][] piece : pieces_left)
       {
-         List<int[][]> findAllOrientations = findAllOrientations(piece);
+         List<int[][]> findAllOrientations = GraphHelper.findAllOrientations(piece);
          tracker.put(piece, findAllOrientations);
       }
 
@@ -239,12 +96,12 @@ public class DeriveMatrix
       // String[] tPiece4 = { "  o o", " oooo", "ooooo", "oooo ", "o oo " };
       // String[] tPiece5 = { " o oo", " ooo ", " oooo", "oooo ", "oo o " };
 
-      int[][] convertToArray1 = convertToArray(tPiece0);
-      int[][] convertToArray2 = convertToArray(tPiece1);
-      int[][] convertToArray3 = convertToArray(tPiece2);
-      int[][] convertToArray4 = convertToArray(tPiece3);
-      int[][] convertToArray5 = convertToArray(tPiece5);
-      int[][] convertToArray6 = convertToArray(tPiece4);
+      int[][] convertToArray1 = Util.convertToArray(tPiece0);
+      int[][] convertToArray2 = Util.convertToArray(tPiece1);
+      int[][] convertToArray3 = Util.convertToArray(tPiece2);
+      int[][] convertToArray4 = Util.convertToArray(tPiece3);
+      int[][] convertToArray5 = Util.convertToArray(tPiece5);
+      int[][] convertToArray6 = Util.convertToArray(tPiece4);
 
       List<int[][]> listOfMatrix = new ArrayList<>();
 
@@ -255,7 +112,7 @@ public class DeriveMatrix
       listOfMatrix.add(convertToArray5);
       listOfMatrix.add(convertToArray6);
       trigger(listOfMatrix);
-      List<Cube> backtrack = backtrack(0, listOfMatrix);
+      backtrack(0, listOfMatrix);
       // System.err.println(controller.getList().size());
       // printPattern(controller.getList());
    }

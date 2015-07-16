@@ -1,4 +1,4 @@
-package com.cube;
+package com.cube.model;
 
 public class Cube
 {
@@ -7,13 +7,13 @@ public class Cube
    int[][] element = new int[5][5];
 
    // hold the reference of adjacent Node
-   Cube left;
+   public Cube left;
 
-   Cube right;
+   public Cube right;
 
-   Cube top;
+   public Cube top;
 
-   Cube bottom;
+   public Cube bottom;
 
    // maintains the start row and column index
    int startRow;

@@ -1,4 +1,4 @@
-package com.cube;
+package com.cube.helper;
 
 public class Util
 {
@@ -35,6 +35,40 @@ public class Util
    public static int[] getBottom(int[][] element)
    {
       return element[element.length - 1];
+   }
+
+
+   /**
+    * Convert String array to Matrix like representation
+    * 
+    * @param cube
+    * @return
+    */
+   public static int[][] convertToArray(String[] cube)
+   {
+
+      int[][] matrix = new int[5][5];
+      int rowIndex = 0;
+
+      for (String row : cube)
+      {
+         char[] charArray = row.toCharArray();
+         int columnIndex = 0;
+         for (char c : charArray)
+         {
+            if (c == ' ')
+            {
+               matrix[rowIndex][columnIndex] = 0;
+            }
+            else
+            {
+               matrix[rowIndex][columnIndex] = 1;
+            }
+            columnIndex++;
+         }
+         rowIndex++;
+      }
+      return matrix;
    }
 
 

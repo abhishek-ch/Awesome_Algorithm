@@ -1,4 +1,4 @@
-package com.cube;
+package com.cube.helper;
 
 public interface Constant
 {
