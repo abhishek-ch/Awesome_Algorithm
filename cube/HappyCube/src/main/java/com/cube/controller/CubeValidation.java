@@ -28,7 +28,7 @@ public class CubeValidation
    public static boolean fitRightBasicSequence(Cube cube, int[][] matrix, int[][] store)
    {
       return xorColumns(cube.getRight(), Util.getLeft(matrix))
-            && safeCheckBottomTopXor(cube.getStartIndex(),
+            && revalidateXor(cube.getStartIndex(),
                   cube.getStartColumn() + 5, cube, matrix, store);
    }
 
@@ -42,7 +42,7 @@ public class CubeValidation
    public static boolean fitLeftBasicSequence(Cube cube, int[][] matrix, int[][] store)
    {
       return xorColumns(cube.getLeft(), Util.getRight(matrix))
-            && safeCheckBottomTopXor(cube.getStartIndex(),
+            && revalidateXor(cube.getStartIndex(),
                   cube.getStartColumn() - 5, cube, matrix, store);
    }
 
@@ -56,7 +56,7 @@ public class CubeValidation
    public static boolean fitTopBasicSequence(Cube cube, int[][] matrix, int[][] store)
    {
       return xorColumns(Util.getBottom(matrix), cube.getTop())
-            && safeCheckBottomTopXor(cube.getStartIndex() - 5,
+            && revalidateXor(cube.getStartIndex() - 5,
                   cube.getStartColumn(), cube, matrix, store);
    }
 
@@ -70,7 +70,7 @@ public class CubeValidation
    public static boolean fitBottomBasicSequence(Cube cube, int[][] matrix, int[][] store)
    {
       return xorColumns(cube.getBottom(), Util.getTop(matrix))
-            && safeCheckBottomTopXor(cube.getStartIndex() + 5,
+            && revalidateXor(cube.getStartIndex() + 5,
                   cube.getStartColumn(), cube, matrix, store);
    }
 
@@ -91,7 +91,7 @@ public class CubeValidation
     * @return
     * @throws ArrayIndexOutOfBoundsException
     */
-   private static boolean safeCheckBottomTopXor(int oRow, int oCol, Cube cube,
+   private static boolean revalidateXor(int oRow, int oCol, Cube cube,
          int[][] matrix, int[][] store) throws ArrayIndexOutOfBoundsException
    {
       // System.out.println(" Orow " + oRow + " Col " + oCol);
@@ -103,9 +103,31 @@ public class CubeValidation
             store[oRow - 1][oCol + 4] };// top
 
       return xorColumns(Util.getBottom(matrix), topLayerFromArray)
-            && xorColumns(Util.getTop(matrix), bottomLayerFromArray);
+            && xorColumns(Util.getTop(matrix), bottomLayerFromArray)
+            && xorEverything(matrix,store);
    }
 
+   private static boolean xorEverything(int[][] thisCube, int[][] otherCube){
+	   boolean result = true;
+	   for(int i=0;i<5;i++){
+		   for(int j=0;j<5;j++){
+			   if (thisCube[i][j] == 0 && otherCube[i][j] == 0)
+		         {
+		            continue;
+		         }
+		         else
+		         {
+		            if ((thisCube[i][j] ^ otherCube[i][j]) == 0)
+		            {
+		               result = false;
+		               break;
+		            }
+		         }
+		   }
+	   }
+	   return result;
+   }
+   
 
    /**
     * Since everything is based on matrix representation , simply use the concept of XOR.

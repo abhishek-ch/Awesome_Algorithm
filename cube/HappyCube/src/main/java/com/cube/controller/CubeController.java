@@ -192,8 +192,8 @@ public class CubeController {
 				Cube cube = new Cube(matrix);
 				cubeList.add(cube);
 				cube.setStartIndex(10);
-				cube.setStartColumn(10);
-				updateStore(matrix, 10, 10);
+				cube.setStartColumn(30);
+				updateStore(matrix, 10, 30);
 			}
 		} catch (Exception e) {
 			// System.err.println("Error occured from : " +
@@ -204,7 +204,7 @@ public class CubeController {
 	}
 
 	/**
-	 * Update the Graph wil latest updated value to ensure the validation check
+	 * Update the Graph will latest updated value to ensure the validation check
 	 * 
 	 * @param matrix
 	 * @param row

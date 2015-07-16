@@ -11,16 +11,16 @@ import com.cube.CubeGraphTraversal;
  * @author abc
  *
  */
-public class Challenge1Part1Test {
+public class Challenge2Test {
 	public static void main(String[] args) {
-		CubeGraphTraversal traversal = new CubeGraphTraversal(true,true); //true means only one result
+		CubeGraphTraversal traversal = new CubeGraphTraversal(false,false); //true means only one result
 		
 		TestHelper helper = new TestHelper();
 		Map<String, List<int[][]>> cubeBlocksinMatrix = helper.getCubeBlocksinMatrix();
 		for (Map.Entry<String,List<int[][]>> entry : cubeBlocksinMatrix.entrySet()) {
 			  String key = entry.getKey();
 			  List<int[][]> value = entry.getValue();
-			  traversal.traverse( value,"output/"+key+"/Challenge1part1",false,true,true);
+			  traversal.traverse( value,"output/"+key+"/Challenge2",false,true,false);
 			  // do stuff
 			}
 	}

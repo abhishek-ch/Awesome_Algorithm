@@ -11,5 +11,5 @@ public interface Constant
 
    public static final int ROW = 30;
 
-   public static final int COLUMN = 30;
+   public static final int COLUMN = 60;
 }

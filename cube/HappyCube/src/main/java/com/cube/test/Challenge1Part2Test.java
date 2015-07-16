@@ -13,7 +13,7 @@ import com.cube.CubeGraphTraversal;
  */
 public class Challenge1Part2Test {
 	public static void main(String[] args) {
-		CubeGraphTraversal traversal = new CubeGraphTraversal(false); //true means only one result
+		CubeGraphTraversal traversal = new CubeGraphTraversal(false,true); //true means only one result
 		
 		TestHelper helper = new TestHelper();
 		Map<String, List<int[][]>> cubeBlocksinMatrix = helper.getCubeBlocksinMatrix();

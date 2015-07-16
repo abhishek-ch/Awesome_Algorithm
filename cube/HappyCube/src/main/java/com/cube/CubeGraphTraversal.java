@@ -58,7 +58,7 @@ private Map<int[][], List<int[][]>> tracker = new HashMap<>();
       if (slotid == 6)
       {
          List<Cube> list = controller.getList();
-         outputStructure.betterPrint(controller.getList());
+         outputStructure.betterPrint(controller.getList(),unfold);
          if(isSingleOutput){
         	 return list;
          }
@@ -119,13 +119,15 @@ private Map<int[][], List<int[][]>> tracker = new HashMap<>();
    
    
    boolean isSingleOutput;
+   boolean unfold;
    /**
     * 
     * @param isSingleOutput do you want to display only one result
     */
-   public CubeGraphTraversal(boolean isSingleOutput)
+   public CubeGraphTraversal(boolean isSingleOutput,boolean unfold)
    {
 	   this.isSingleOutput = isSingleOutput;
+	   this.unfold = unfold;
    }
 
 

@@ -79,7 +79,11 @@ public class OutputStructure {
 			}
 		}
 	}
-
+	
+	/**
+	 * print console output in file
+	 * @param message
+	 */
 	private void console(String message) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH_mm_ss");
 		Date date = new Date();
@@ -95,7 +99,8 @@ public class OutputStructure {
 		out.close();
 	}
 
-	public void betterPrint(List<Cube> list) {
+	public void betterPrint(List<Cube> list, boolean unfold) {
+		boolean invalid = false;
 		for (Cube cube : list) {
 			int[][] element = cube.getElement();
 			int column = cube.getStartColumn();
@@ -104,12 +109,17 @@ public class OutputStructure {
 			int icol = 0;
 			for (int i = row; i < row + 5; i++) {
 				for (int j = column; j < column + 5; j++) {
+					if(!unfold && outputArr[i][j] == 1){
+						invalid = true;
+						break;
+					}
 					outputArr[i][j] = element[irow][icol++];
 				}
 				icol = 0;
 				irow++;
 			}
 		}
+		if(!invalid)
 		print();
 	}
 
