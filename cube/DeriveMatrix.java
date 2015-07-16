@@ -28,9 +28,6 @@ public class DeriveMatrix {
 		return matrix;
 	}
 
-
-
-
 	public int[][] flipInPlace(int[][] theArray) {
 		for (int i = 0; i < (theArray.length / 2); i++) {
 			int[] temp = theArray[i];
@@ -111,11 +108,16 @@ public class DeriveMatrix {
 		List<int[][]> allPossibleRotations = new ArrayList<>();
 		allPossibleRotations.add(matrix);
 		allPossibleRotations.add(flipInPlace(matrix));
-		allPossibleRotations.add(mirror(matrix[0].length, matrix.length, matrix));
+		allPossibleRotations
+				.add(mirror(matrix[0].length, matrix.length, matrix));
 
-		allPossibleRotations.addAll(findAllPossibleRightRotations(allPossibleRotations.get(0)));
+		allPossibleRotations
+				.addAll(findAllPossibleRightRotations(allPossibleRotations
+						.get(0)));
 
-		allPossibleRotations.addAll(findAllPossibleRightRotations(allPossibleRotations.get(2)));
+		allPossibleRotations
+				.addAll(findAllPossibleRightRotations(allPossibleRotations
+						.get(2)));
 
 		return allPossibleRotations;
 	}
@@ -132,19 +134,24 @@ public class DeriveMatrix {
 
 	}
 
-
 	public List<Cube> backtrack(int slotid, List<int[][]> pieces_left) {
 		if (slotid == 6) {
 			List<Cube> list = controller.getList();
-			OutputStructure.betterPrint(controller.getList());
+			new OutputStructure().betterPrint(controller.getList());
 			// System.exit(0);
+			controller = new CubeController();
 			return list;
 		}
 
 		for (int[][] piece : pieces_left) {
 			List<int[][]> list = tracker.get(piece);
 			for (int[][] orientationPiece : list) {
-				List<Cube> buildCubeBlock = controller.buildCubeInfrastructure(orientationPiece);
+				List<Cube> buildCubeBlock = controller
+						.buildCubeInfrastructure(orientationPiece);
+
+				// List<Cube> buildCubeBlock = controller.buildUnfoldedCube(
+				// slotid, orientationPiece);
+
 				if (buildCubeBlock.size() == slotid + 1) {
 					List<int[][]> subList = new ArrayList<int[][]>(pieces_left);
 					subList.remove(piece);
@@ -163,20 +170,28 @@ public class DeriveMatrix {
 		controller = new CubeController();
 
 		// BLUE
-//		String[] tPiece0 = { "  o  ", " ooo ", "ooooo", " ooo ", "  o  " };
-//		String[] tPiece1 = { "  o o", "ooooo", " ooo ", "ooooo", " o oo" };
-//		String[] tPiece2 = { " o o ", " ooo ", "ooooo", " ooo ", "  o  " };
-//		String[] tPiece3 = { "o o  ", "ooooo", " ooo ", "ooooo", " o o " };
-//		String[] tPiece4 = { "o o o", "ooooo", " ooo ", "ooooo", "o o o" };
-//		String[] tPiece5 = { " o o ", "oooo ", " oooo", "oooo ", "oo o " };
+		String[] tPiece0 = { "  o  ", " ooo ", "ooooo", " ooo ", "  o  " };
+		String[] tPiece1 = { "  o o", "ooooo", " ooo ", "ooooo", " o oo" };
+		String[] tPiece2 = { " o o ", " ooo ", "ooooo", " ooo ", "  o  " };
+		String[] tPiece3 = { "o o  ", "ooooo", " ooo ", "ooooo", " o o " };
+		String[] tPiece4 = { "o o o", "ooooo", " ooo ", "ooooo", "o o o" };
+		String[] tPiece5 = { " o o ", "oooo ", " oooo", "oooo ", "oo o " };
 
-		// RED
-		 String[] tPiece0 = { " oo", " ooo ", "ooooo", " ooo ", " o oo" };
-		 String[] tPiece1 = { " o o", "oooo ", " oooo", "oooo ", " o " };
-		 String[] tPiece2 = { " oo o", "ooooo", " ooo ", "ooooo", "o oo" };
-		 String[] tPiece3 = { " o ", "oooo ", " oooo", "oooo ", " o " };
-		 String[] tPiece4 = { " oo ", "ooooo", " ooo ", "ooooo", "o o " };
-		 String[] tPiece5 = { " oo ", " ooo ", "ooooo", " ooo ", "oo oo" };
+		// RED Couldn't find any permutation to unfold red node to 6
+		// String[] tPiece0 = { " oo", " ooo ", "ooooo", " ooo ", " o oo" };
+		// String[] tPiece1 = { " o o", "oooo ", " oooo", "oooo ", " o " };
+		// String[] tPiece2 = { " oo o", "ooooo", " ooo ", "ooooo", "o oo" };
+		// String[] tPiece3 = { " o ", "oooo ", " oooo", "oooo ", " o " };
+		// String[] tPiece4 = { " oo ", "ooooo", " ooo ", "ooooo", "o o " };
+		// String[] tPiece5 = { " oo ", " ooo ", "ooooo", " ooo ", "oo oo" };
+
+		// Purple
+		// String[] tPiece0 = { "oo o ", "oooo ", "oooo ", " oooo", "  o  " };
+		// String[] tPiece1 = { "   oo", "oooo ", "ooooo", " ooo ", " o o " };
+		// String[] tPiece2 = { " o   ", "oooo ", " oooo", "oooo ", "  o  " };
+		// String[] tPiece3 = { "oo oo", " oooo", "oooo ", " ooo ", " o o " };
+		// String[] tPiece4 = { "  o o", " oooo", "ooooo", "oooo ", "o oo " };
+		// String[] tPiece5 = { " o oo", " ooo ", " oooo", "oooo ", "oo o " };
 
 		int[][] convertToArray1 = convertToArray(tPiece0);
 		int[][] convertToArray2 = convertToArray(tPiece1);
