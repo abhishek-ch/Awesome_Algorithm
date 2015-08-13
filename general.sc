@@ -1,3 +1,5 @@
+import java.util.Date
+
 val list = List(1,2,3,4,5)
 list.foreach(num => print(num +1)) //won't return anything
 
@@ -70,3 +72,31 @@ val result3 = array groupBy {
   isNeg orElse
   isGreat
 }
+
+
+val result1 = array forall(_ <= 200)
+
+val list3 =  List(5,4,3,2,1)
+
+//fold left
+val result4 = (3 /: list3){
+  (`pappu1`,`pappu2`) => `pappu1` - `pappu2`
+}
+
+val result5 = (((((3 - 5)-4)-3)-2)-1)
+
+
+val result6 = (list3 :\ 0){
+  (`pappu1`,`pappu2`) => `pappu1` - `pappu2`
+}
+
+list3.sum
+
+
+//////////////////////////////////foldLeft is Tail recursion//////////
+val MAX_SIZE = 1000000
+val startDate = new Date
+(1 to MAX_SIZE) reduceLeft (_ + _)
+val endDate = new Date
+(1 to MAX_SIZE) reduceRight (_ + _)
+val superEndDate = new Date
