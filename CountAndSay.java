@@ -8,7 +8,7 @@ public class CountAndSay {
 	}
 
 	
-	
+	//count & say
 	 public String countAndSay(int n) {
 	        String output = "";
 	        int sum = 0;
