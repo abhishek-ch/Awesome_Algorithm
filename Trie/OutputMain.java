@@ -1,11 +1,4 @@
-/**
- * Number Enconder Program
- * 
- * Program is designed to take a dictionary of numbers and convert them into
- * words based on a user's dictionary of word file.
- * 
- * By Adefemi Adeyemi
- * **/
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
