@@ -33,10 +33,16 @@ public class MedianOfTwoSortedArray_WithLogComplexity {
     private double findMedian(int[] array1, int arr1Start, int arr1End , int[] array2, int arr2Start,int arr2End){
 
 
-
+        if(array1.length == 0 && array2.length != 0){
+            return array2[getMedian(array2)];
+        }else if(array2.length == 0 && array1.length != 0){
+            return array1[getMedian(array1)];
+        }
         //if size == 2 for both th array.
-        if(array1.length == 2 && array2.length == 2){
+        else if(array1.length == 2 && array2.length == 2){
             return (Math.max(array1[0], array2[0]) + Math.min(array1[1], array2[1]))/2;
+        } else if(array1.length == 1 && array2.length == 2){
+            return array1[0];
         }
 
         int[] arr1 = Arrays.copyOfRange(array1, arr1Start, arr1End);
@@ -75,8 +81,8 @@ public class MedianOfTwoSortedArray_WithLogComplexity {
 
 
     public static void main(String[] args){
-        int[] arr1 =   {1, 12, 15, 26, 38};
-        int[] arr2 = {2, 13, 17, 30, 45};
+        int[] arr1 =   {1};
+        int[] arr2 = {2, 3};
         System.out.println(" Median of Sorted Array "+new MedianOfTwoSortedArray_WithLogComplexity().findMedianSortedArrays(arr1, arr2));
     }
 }
