@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+//read recursive version of permutation from https://www.youtube.com/watch?v=MQcwxQK2DPA
 
 public class StringPermutation
 {
