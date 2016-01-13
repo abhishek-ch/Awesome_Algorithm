@@ -4,8 +4,8 @@ public class WordSearch_Recursion {
 	 * DFS Technique used to solve
 	 */
 	String[][] input = new String[][] { { "A", "B", "C", "E" },
-										{ "S", "F", "C", "S" }, 
-										{ "A", "D", "E", "E" } };
+					    { "S", "F", "C", "S" }, 
+					    { "A", "D", "E", "E" } };
 	
 	int r = 0;
 	int c = 0;
