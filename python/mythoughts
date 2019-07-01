@@ -1,0 +1,22 @@
+
+#1
+Somebody asked me why do I prefer Impertive(Dataset/Dataframe) over Declarative query(Sql/SparkSql) in distributed system?
+Because as of now, atleast in case of distributed system, underlying Query Optimizer is not very advanced, 
+so I have seen several cases when a non-preetier scala/python code performed way better/faster than small and easy-to-read sql 
+syntax AND in distributed system, speed and optimization matter a lot, so atleast for now I've a reason :-) 
+
+
+
+#2
+Why is it important to know #datastructure for #bigdata ?
+Almost all major distributed #nosql databases are based on SSTables, 
+which makes compaction important & that makes mergesort super important which in general known as
+LSM-tree (merging & compaction).
+It doesn't mean B-Tree is going anywhere, the enormous development and optimizations around B-tree for last many years 
+has made the datastructure - King (databases) !!!
+Basically, LSM-trees are faster for writes and but slower to Read not because of SSTable datastructure but
+more around the distributed principles like validating different data structures, compaction , slots and others.
+
+If you notice carefully, I have named few datastructures above, if I try to go in more details, I may end up writing a big big blog,
+so yeah Datastructures are Very Important !!!
+
