@@ -141,6 +141,34 @@ def inorder(node):
 		inorder(node.right)
 
 
+def sum_root_leaf_path_util(node,result):
+	
+	# if node is none return none
+	if node is None:
+		return 0
+
+	# if node is not None, then add the 
+	'''
+	6 -> 60 -> 600 
+	6 -> (3+60) -> (2 + 630)
+
+	6 -> (3+60) -> (5+630) -> (4+6350)
+	'''
+	result = node.data + result*10
+
+	# if node <- left and <- right is None, thats where path ends return the val
+	# found the leaf child so return
+	if node.left is None and node.right is None:
+		return result
+	
+	# call left and right with sum 
+	return sum_root_leaf_path_util(node.left,result) + sum_root_leaf_path_util(node.right,result) 
+
+
+def sum_root_leaf_path(node):
+	return sum_root_leaf_path_util(node,0)
+
+
 # Driver program  
 root = Node(10) 
 root.left = Node(2) 
@@ -196,12 +224,22 @@ root.left.right = Node(5)
 root.left.left.left = Node(7)  
 root.right.right = Node(6)  
 root.right.right.left = Node(8)  
-print("Inorder Traversal of Original tree" )  
-inorder(root) 
-result_node = remove_nodes_with_length_less_than(root,4)
-print()
-print("Inorder Traversal of Final tree" )  
-inorder(result_node)
+# print("Inorder Traversal of Original tree" )  
+# inorder(root) 
+# result_node = remove_nodes_with_length_less_than(root,4)
+# print()
+# print("Inorder Traversal of Final tree" )  
+# inorder(result_node)
+
+root = Node(6) 
+root.left = Node(3) 
+root.right = Node(5) 
+root.left.left = Node(2) 
+root.left.right = Node(5) 
+root.right.right = Node(4) 
+root.left.right.left = Node(7) 
+root.left.right.right = Node(4) 
+print('Sum of all paths is %s'%(sum_root_leaf_path(root)))
 
 
 
